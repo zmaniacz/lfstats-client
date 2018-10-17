@@ -1,21 +1,94 @@
 import React from "react";
-import Tabs from "react-bootstrap/lib/Tabs";
-import Tab from "react-bootstrap/lib/Tab";
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Row,
+  Col
+} from "reactstrap";
+import classnames from "classnames";
+import CompactScorecardList from "./CompactScorecardList";
 import GameList from "./GameList";
 
-const Event = ({ event }) => (
-  <div>
-    <h1>{`${event.name} - ${event.center.name}`}</h1>
-    <Tabs defaultActiveKey="event-scorecards" id="event-tabs">
-      <Tab eventKey="event-scorecards" title="Scorecards" />
+export default class Event extends React.Component {
+  constructor(props) {
+    super(props);
 
-      <Tab eventKey="event-overall" title="Overall" />
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      activeTab: "event-scorecards"
+    };
+  }
 
-      <Tab eventKey="event-games" title="Games Played">
-        <GameList games={event.games} />
-      </Tab>
-    </Tabs>
-  </div>
-);
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  }
 
-export default Event;
+  render() {
+    const { event } = this.props;
+    return (
+      <div>
+        <h1>{`${event.name} - ${event.center.name}`}</h1>
+        <Nav tabs>
+          <NavItem>
+            <NavLink
+              className={classnames({
+                active: this.state.activeTab === "event-scorecards"
+              })}
+              onClick={() => {
+                this.toggle("event-scorecards");
+              }}
+            >
+              Scorecards
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({
+                active: this.state.activeTab === "event-overall"
+              })}
+              onClick={() => {
+                this.toggle("event-overall");
+              }}
+            >
+              Overall
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({
+                active: this.state.activeTab === "event-games"
+              })}
+              onClick={() => {
+                this.toggle("event-games");
+              }}
+            >
+              Games Played
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent activeTab={this.state.activeTab}>
+          <TabPane tabId="event-scorecards">
+            <Row>
+              <Col>
+                <CompactScorecardList scorecards={event.scorecards} />
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane tabId="event-overall">
+            <h1>Overall</h1>
+          </TabPane>
+          <TabPane tabId="event-games">
+            <GameList games={event.games} />
+          </TabPane>
+        </TabContent>
+      </div>
+    );
+  }
+}

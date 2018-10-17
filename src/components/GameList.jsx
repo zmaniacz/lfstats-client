@@ -1,48 +1,46 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Row from "react-bootstrap/lib/Row";
-import Col from "react-bootstrap/lib/Col";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilePdf } from "@fortawesome/free-regular-svg-icons";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
+import {
+  Grid,
+  Table,
+  TableHeaderRow
+} from "@devexpress/dx-react-grid-bootstrap4";
+import { Row, Col } from "reactstrap";
+import PdfLinkTypeProvider from "./PdfLinkTypeProvider";
+import LFTable from "./LFTable";
 
-const columns = [
-  {
-    Header: "Game Name",
-    accessor: "name",
-    Cell: row => <Link to={`/game/${row.original.id}`}>{row.value}</Link>
-  },
-  { Header: "Winner Score", accessor: "winnerScore" },
-  { Header: "Loser Score", accessor: "loserScore" },
-  {
-    Header: "PDF",
-    accessor: "pdfLink",
-    Cell: row => (
-      <a href={`${row.value}`}>
-        <FontAwesomeIcon icon={faFilePdf} />
-      </a>
-    )
-  }
-];
+const GameList = ({ games }) => {
+  const columns = [
+    { title: "Game Name", name: "name" },
+    { title: "Winner Score", name: "winnerScore" },
+    { title: "Loser Score", name: "loserScore" },
+    { title: "PDF", name: "pdfLink" }
+  ];
 
-const GameList = ({ games }) => (
-  <Row>
-    <Col xs={{ span: 10, offset: 1 }}>
-      <ReactTable
-        showPagination={false}
-        columns={columns}
-        defaultPageSize={Math.min(games.length, 10)}
-        data={games.map(game => ({
-          id: game.id,
-          name: game.name,
-          winnerScore: game.winner === "red" ? game.redScore : game.greenScore,
-          loserScore: game.winner === "red" ? game.greenScore : game.redScore,
-          pdfLink: game.pdfLink
-        }))}
-      />
-    </Col>
-  </Row>
-);
+  const pdfColumns = ["pdfLink"];
+
+  const rows = games.map(game => ({
+    id: game.id,
+    startTime: game.startTime,
+    name: game.name,
+    winnerScore: game.winner === "red" ? game.redScore : game.greenScore,
+    loserScore: game.winner === "red" ? game.greenScore : game.redScore,
+    pdfLink: game.pdfLink
+  }));
+
+  return (
+    <Row>
+      <Col xs={{ size: 8, offset: 2 }}>
+        <div className="m-2">
+          <Grid columns={columns} rows={rows}>
+            <PdfLinkTypeProvider for={pdfColumns} />
+            <Table tableComponent={LFTable} />
+            <TableHeaderRow />
+          </Grid>
+        </div>
+      </Col>
+    </Row>
+  );
+};
 
 export default GameList;

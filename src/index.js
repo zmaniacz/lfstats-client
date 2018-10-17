@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "bootswatch/dist/litera/bootstrap.min.css";
+import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 import LFStats from "./LFStats";
 import * as serviceWorker from "./serviceWorker";
 

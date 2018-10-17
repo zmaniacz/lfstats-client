@@ -21,6 +21,19 @@ const GET_EVENT = gql`
         greenScore
         pdfLink
       }
+      scorecards {
+        id
+        playerName
+        playerId
+        team
+        position
+        accuracy
+        hitDiff
+        score
+        mvp
+        medicHits
+        shotTeam
+      }
     }
   }
 `;

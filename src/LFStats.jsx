@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import Container from "react-bootstrap/lib/Container";
+import { Container } from "reactstrap";
 import LFMenu from "./containers/LFMenu";
 import Footer from "./components/Footer";
 import EventListContainer from "./containers/EventListContainer";
