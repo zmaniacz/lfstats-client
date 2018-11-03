@@ -17,22 +17,55 @@ const GET_EVENT = gql`
         name
         startTime
         winner
+        loser
         redScore
         greenScore
         pdfLink
       }
       scorecards {
         id
-        playerName
         playerId
+        playerName
         team
         position
-        accuracy
+        shotsFired
         hitDiff
-        score
-        mvp
+        shotsHit
+        timesZapped
+        timesMissiled
+        missileHits
+        nukesActivated
+        nukesDetonated
+        nukesCanceled
         medicHits
+        ownMedicHits
+        medicNukes
+        scoutRapid
+        lifeBoost
+        ammoBoost
+        livesLeft
+        score
+        shotsLeft
+        shot3Hit
+        elimOtherTeam
+        teamElim
+        ownNukeCancels
+        shotOpponent
         shotTeam
+        missiledOpponent
+        missiledTeam
+        resupplies
+        rank
+        basesDestroyed
+        accuracy
+        mvp
+        spEarned
+        spSpent
+        isSub
+        game {
+          id
+          name
+        }
       }
     }
   }

@@ -11,16 +11,21 @@ import {
   Table,
   TableHeaderRow,
   PagingPanel
-} from "@devexpress/dx-react-grid-bootstrap4";
-import { Row, Col } from "reactstrap";
+} from "@devexpress/dx-react-grid-material-ui";
 import HitDiffTypeProvider from "./HitDiffTypeProvider";
-import LFTable from "./LFTable";
 
 const CompactScorecardList = ({ scorecards }) => {
   const columns = [
     { title: "#", name: "id" },
     { title: "Name", name: "playerName" },
-    { title: "Game", name: "gameName" },
+    {
+      title: "Game",
+      name: "gameName",
+      getCellValue: row => {
+        console.log(row);
+        return row.game.name;
+      }
+    },
     { title: "Position", name: "position" },
     { title: "Score", name: "score" },
     { title: "MVP", name: "mvp" },
@@ -32,39 +37,21 @@ const CompactScorecardList = ({ scorecards }) => {
 
   const hitDiffColumns = ["hitDiff"];
 
-  const rows = scorecards.map(scorecard => ({
-    id: scorecard.id,
-    playerId: scorecard.playerId,
-    playerName: scorecard.playerName,
-    gameName: "test",
-    position: scorecard.position,
-    score: scorecard.score,
-    mvp: scorecard.mvp,
-    hitDiff: scorecard.hitDiff,
-    medicHits: scorecard.medicHits,
-    accuracy: scorecard.accuracy,
-    shotTeam: scorecard.shotTeam
-  }));
-
   return (
-    <Row>
-      <Col>
-        <div className="m-2">
-          <Grid columns={columns} rows={scorecards}>
-            <SortingState
-              defaultSorting={[{ columnName: "mvp", direction: "desc" }]}
-            />
-            <IntegratedSorting />
-            <PagingState defaultCurrentPage={0} pageSize={5} />
-            <IntegratedPaging />
-            <HitDiffTypeProvider for={hitDiffColumns} />
-            <Table tableComponent={LFTable} />
-            <TableHeaderRow showSortingControls />
-            <PagingPanel />
-          </Grid>
-        </div>
-      </Col>
-    </Row>
+    <div className="m-2">
+      <Grid columns={columns} rows={scorecards}>
+        <SortingState
+          defaultSorting={[{ columnName: "mvp", direction: "desc" }]}
+        />
+        <IntegratedSorting />
+        <PagingState defaultCurrentPage={0} pageSize={5} />
+        <IntegratedPaging />
+        <HitDiffTypeProvider for={hitDiffColumns} />
+        <Table />
+        <TableHeaderRow showSortingControls />
+        <PagingPanel />
+      </Grid>
+    </div>
   );
 };
 
