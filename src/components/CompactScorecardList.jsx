@@ -1,10 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { SortingState, IntegratedSorting } from "@devexpress/dx-react-grid";
+import {
+  SortingState,
+  IntegratedSorting,
+  PagingState,
+  IntegratedPaging
+} from "@devexpress/dx-react-grid";
 import {
   Grid,
   Table,
-  TableHeaderRow
+  TableHeaderRow,
+  PagingPanel
 } from "@devexpress/dx-react-grid-bootstrap4";
 import { Row, Col } from "reactstrap";
 import HitDiffTypeProvider from "./HitDiffTypeProvider";
@@ -44,14 +50,17 @@ const CompactScorecardList = ({ scorecards }) => {
     <Row>
       <Col>
         <div className="m-2">
-          <Grid columns={columns} rows={rows}>
+          <Grid columns={columns} rows={scorecards}>
             <SortingState
               defaultSorting={[{ columnName: "mvp", direction: "desc" }]}
             />
             <IntegratedSorting />
+            <PagingState defaultCurrentPage={0} pageSize={5} />
+            <IntegratedPaging />
             <HitDiffTypeProvider for={hitDiffColumns} />
             <Table tableComponent={LFTable} />
             <TableHeaderRow showSortingControls />
+            <PagingPanel />
           </Grid>
         </div>
       </Col>
