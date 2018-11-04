@@ -22,7 +22,6 @@ const CompactScorecardList = ({ scorecards }) => {
       title: "Game",
       name: "gameName",
       getCellValue: row => {
-        console.log(row);
         return row.game.name;
       }
     },
@@ -38,20 +37,18 @@ const CompactScorecardList = ({ scorecards }) => {
   const hitDiffColumns = ["hitDiff"];
 
   return (
-    <div className="m-2">
-      <Grid columns={columns} rows={scorecards}>
-        <SortingState
-          defaultSorting={[{ columnName: "mvp", direction: "desc" }]}
-        />
-        <IntegratedSorting />
-        <PagingState defaultCurrentPage={0} pageSize={5} />
-        <IntegratedPaging />
-        <HitDiffTypeProvider for={hitDiffColumns} />
-        <Table />
-        <TableHeaderRow showSortingControls />
-        <PagingPanel />
-      </Grid>
-    </div>
+    <Grid columns={columns} rows={scorecards}>
+      <SortingState
+        defaultSorting={[{ columnName: "mvp", direction: "desc" }]}
+      />
+      <PagingState defaultCurrentPage={0} pageSize={5} />
+      <IntegratedSorting />
+      <IntegratedPaging />
+      <HitDiffTypeProvider for={hitDiffColumns} />
+      <Table />
+      <TableHeaderRow showSortingControls />
+      <PagingPanel />
+    </Grid>
   );
 };
 

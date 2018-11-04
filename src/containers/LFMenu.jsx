@@ -5,20 +5,17 @@ import {
   Typography,
   withStyles,
   Drawer,
-  List,
   IconButton,
-  Hidden,
-  Divider
+  Hidden
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
-import { NavLink } from "react-router-dom";
+import NavList from "./../components/NavList";
 
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 440,
     zIndex: 1,
     overflow: "hidden",
     position: "relative",
@@ -63,16 +60,6 @@ class LFMenu extends React.Component {
   render() {
     const { classes, theme } = this.props;
 
-    const drawer = (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>Stuff1</List>
-        <Divider />
-        <List>Stuff2</List>
-      </div>
-    );
-
     return (
       <div className={classes.root}>
         <AppBar className={classes.appBar}>
@@ -85,8 +72,8 @@ class LFMenu extends React.Component {
             >
               <Menu />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
-              Responsive drawer
+            <Typography variant="h6" color="inherit" noWrap>
+              LFStats
             </Typography>
           </Toolbar>
         </AppBar>
@@ -103,7 +90,7 @@ class LFMenu extends React.Component {
               keepMounted: true // Better open performance on mobile.
             }}
           >
-            {drawer}
+            <NavList />
           </Drawer>
         </Hidden>
         <Hidden smDown implementation="css">
@@ -114,7 +101,7 @@ class LFMenu extends React.Component {
               paper: classes.drawerPaper
             }}
           >
-            {drawer}
+            <NavList />
           </Drawer>
         </Hidden>
         <main className={classes.content}>
