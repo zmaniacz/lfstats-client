@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import {
   SortingState,
+  FilteringState,
+  IntegratedFiltering,
   IntegratedSorting,
   PagingState,
   IntegratedPaging
@@ -10,46 +11,50 @@ import {
   Grid,
   Table,
   TableHeaderRow,
+  TableFilterRow,
   PagingPanel
 } from "@devexpress/dx-react-grid-material-ui";
 import HitDiffTypeProvider from "./HitDiffTypeProvider";
 
-const CompactScorecardList = ({ scorecards }) => {
+function CompactScorecardList({ scorecards }) {
   const columns = [
     { title: "#", name: "id" },
-    { title: "Name", name: "playerName" },
+    { title: "Name", name: "player_name" },
     {
       title: "Game",
       name: "gameName",
       getCellValue: row => {
-        return row.game.name;
+        return row.game.game_name;
       }
     },
     { title: "Position", name: "position" },
     { title: "Score", name: "score" },
-    { title: "MVP", name: "mvp" },
-    { title: "Hit Diff", name: "hitDiff" },
-    { title: "Medic Hits", name: "medicHits" },
+    { title: "MVP", name: "mvp_points" },
+    { title: "Hit Diff", name: "hit_diff" },
+    { title: "Medic Hits", name: "medic_hits" },
     { title: "Accuracy", name: "accuracy" },
-    { title: "Shot Team", name: "shotTeam" }
+    { title: "Shot Team", name: "shot_team" }
   ];
 
-  const hitDiffColumns = ["hitDiff"];
+  const hitDiffColumns = ["hit_diff"];
 
   return (
     <Grid columns={columns} rows={scorecards}>
       <SortingState
         defaultSorting={[{ columnName: "mvp", direction: "desc" }]}
       />
-      <PagingState defaultCurrentPage={0} pageSize={5} />
+      <PagingState defaultCurrentPage={0} pageSize={10} />
       <IntegratedSorting />
       <IntegratedPaging />
       <HitDiffTypeProvider for={hitDiffColumns} />
+      <FilteringState defaultFilters={[]} />
+      <IntegratedFiltering />
       <Table />
       <TableHeaderRow showSortingControls />
+      <TableFilterRow />
       <PagingPanel />
     </Grid>
   );
-};
+}
 
 export default CompactScorecardList;

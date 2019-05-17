@@ -5,62 +5,36 @@ import {
   ListItemIcon,
   ListItemText,
   ListSubheader,
-  Divider,
-  withStyles
+  Divider
 } from "@material-ui/core";
 import { KeyboardArrowRight, Home } from "@material-ui/icons";
-import { Link, NavLink } from "react-router-dom";
+import NavListItemLink from "./NavListItemLink";
 import * as routes from "./../routes";
 
-const styles = theme => ({
-  activeButton: {
-    color: theme.palette.primary.main
-  }
-});
-
-const NavList = props => {
-  const { classes } = props;
+export default function NavList(props) {
   return (
     <div>
       <List>
-        <ListItem
-          button
-          component={NavLink}
-          to={routes.LANDING}
-          activeClassName={classes.activeButton}
-        >
-          <ListItemIcon>
-            <Home />
-          </ListItemIcon>
-          <ListItemText primary="Recent Events" />
-        </ListItem>
+        <NavListItemLink to={routes.LANDING} primary="Home" icon={<Home />} />
         <ListSubheader>Event Stats</ListSubheader>
-        <ListItem button>
-          <ListItemIcon>
-            <KeyboardArrowRight />
-          </ListItemIcon>
-          <ListItemText primary="Scorecards" />
-        </ListItem>
-        <ListItem
-          button
-          component={NavLink}
+        <NavListItemLink
           to={routes.GAMES}
-          activeClassName={classes.activeButton}
-        >
-          <ListItemIcon>
-            <KeyboardArrowRight />
-          </ListItemIcon>
-          <ListItemText primary="Games Played" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <KeyboardArrowRight />
-          </ListItemIcon>
-          <ListItemText primary="Player Stats" />
-        </ListItem>
+          primary="Scorecards"
+          icon={<KeyboardArrowRight />}
+        />
+        <NavListItemLink
+          to={routes.GAMES}
+          primary="Games Played"
+          icon={<KeyboardArrowRight />}
+        />
+        <NavListItemLink
+          to={routes.GAMES}
+          primary="Player Stats"
+          icon={<KeyboardArrowRight />}
+        />
         <Divider />
         <ListSubheader>All Stats</ListSubheader>
-        <ListItem button component={NavLink} to={routes.PLAYERS}>
+        <ListItem button>
           <ListItemIcon>
             <KeyboardArrowRight />
           </ListItemIcon>
@@ -94,6 +68,4 @@ const NavList = props => {
       </List>
     </div>
   );
-};
-
-export default withStyles(styles)(NavList);
+}

@@ -1,15 +1,46 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import useAxios from "axios-hooks";
+import { Paper, CircularProgress, Typography } from "@material-ui/core";
+import { useTheme } from "@material-ui/styles";
 import CompactScorecardList from "./CompactScorecardList";
-//import GameList from "./GameList";
+import LoadError from "./LoadError";
 
-const Event = ({ event }) => (
-  <Grid container>
-    <Grid item xs={10}>
-      <CompactScorecardList scorecards={event.scorecards} />
-    </Grid>
-    {/*<GameList games={event.games} />*/}
-  </Grid>
-);
+export default function Event(props) {
+  const theme = useTheme();
 
-export default Event;
+  const styles = {
+    root: {
+      flexGrow: 1,
+      width: "100%"
+    },
+    paper: {
+      padding: theme.spacing.unit * 2,
+      alignText: "center",
+      justifyContent: "center"
+    },
+    spinner: {
+      color: theme.palette.primary.main
+    }
+  };
+
+  const { eventId } = props.match.params;
+
+  const [{ data, loading, error }] = useAxios(
+    `events/${eventId}?include[]=scorecards.game`
+  );
+
+  return (
+    <div style={styles.root}>
+      <Typography variant="h4">Event Stats</Typography>
+      <Paper style={styles.paper}>
+        {
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress style={styles.spinner} />
+          </div>
+        }
+        {/*{error && <LoadError />}*/}
+        {/*{data && <CompactScorecardList scorecards={data.data.scorecards} />}*/}
+      </Paper>
+    </div>
+  );
+}
