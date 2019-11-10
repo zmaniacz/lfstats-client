@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTypeProvider } from "@devexpress/dx-react-grid";
-import { useTheme } from "@material-ui/styles";
+import { useTheme } from "@material-ui/core/styles";
 import { TableChart } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
@@ -9,7 +9,7 @@ function HitDiffFormatter({ value }) {
 
   const styles = {
     icon: {
-      marginLeft: theme.spacing.unit,
+      marginLeft: theme.spacing(1),
       fontSize: 16
     },
     cell: {

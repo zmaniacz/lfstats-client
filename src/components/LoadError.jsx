@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/styles";
+import { useTheme } from "@material-ui/core/styles";
 import { Error } from "@material-ui/icons";
 
 export default function LoadError(props) {
@@ -8,7 +8,7 @@ export default function LoadError(props) {
 
   const styles = {
     icon: {
-      margin: theme.spacing.unit,
+      margin: theme.spacing(1),
       fontSize: 32
     }
   };

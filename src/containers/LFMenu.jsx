@@ -6,9 +6,9 @@ import {
   Drawer,
   IconButton,
   Hidden,
-  Grid
+  Container
 } from "@material-ui/core";
-import { useTheme, makeStyles } from "@material-ui/styles";
+import { useTheme, makeStyles } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/icons";
 import NavList from "./../components/NavList";
 import Footer from "./../components/Footer";
@@ -38,7 +38,11 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth
   },
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4)
+  }
 }));
 
 export default function LFMenu(props) {
@@ -103,14 +107,10 @@ export default function LFMenu(props) {
       </nav>
       <div>
         <div className={classes.toolbar} />
-        <Grid container spacing={24}>
-          <Grid item xs={12}>
-            {props.children}
-          </Grid>
-          <Grid item xs={12}>
-            <Footer />
-          </Grid>
-        </Grid>
+        <Container maxWidth="xl" className={classes.container}>
+          {props.children}
+        </Container>
+        <Footer />
       </div>
     </div>
   );

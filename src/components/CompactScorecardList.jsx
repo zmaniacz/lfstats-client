@@ -18,25 +18,24 @@ import HitDiffTypeProvider from "./HitDiffTypeProvider";
 
 function CompactScorecardList({ scorecards }) {
   const columns = [
-    { title: "#", name: "id" },
-    { title: "Name", name: "player_name" },
+    { title: "Name", name: "playerName" },
     {
       title: "Game",
-      name: "gameName",
+      name: "name",
       getCellValue: row => {
-        return row.game.game_name;
+        return row.game.name;
       }
     },
     { title: "Position", name: "position" },
     { title: "Score", name: "score" },
-    { title: "MVP", name: "mvp_points" },
-    { title: "Hit Diff", name: "hit_diff" },
-    { title: "Medic Hits", name: "medic_hits" },
+    { title: "MVP", name: "mvp" },
+    { title: "Hit Diff", name: "hitDiff" },
+    { title: "Medic Hits", name: "medicHits" },
     { title: "Accuracy", name: "accuracy" },
-    { title: "Shot Team", name: "shot_team" }
+    { title: "Shot Team", name: "shotTeam" }
   ];
 
-  const hitDiffColumns = ["hit_diff"];
+  const hitDiffColumns = ["hitDiff"];
 
   return (
     <Grid columns={columns} rows={scorecards}>
@@ -45,10 +44,10 @@ function CompactScorecardList({ scorecards }) {
       />
       <PagingState defaultCurrentPage={0} pageSize={10} />
       <IntegratedSorting />
-      <IntegratedPaging />
       <HitDiffTypeProvider for={hitDiffColumns} />
       <FilteringState defaultFilters={[]} />
       <IntegratedFiltering />
+      <IntegratedPaging />
       <Table />
       <TableHeaderRow showSortingControls />
       <TableFilterRow />

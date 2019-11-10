@@ -18,7 +18,7 @@ export default function NavList(props) {
         <NavListItemLink to={routes.LANDING} primary="Home" icon={<Home />} />
         <ListSubheader>Event Stats</ListSubheader>
         <NavListItemLink
-          to={routes.GAMES}
+          to={routes.SCORECARDS}
           primary="Scorecards"
           icon={<KeyboardArrowRight />}
         />
@@ -28,7 +28,7 @@ export default function NavList(props) {
           icon={<KeyboardArrowRight />}
         />
         <NavListItemLink
-          to={routes.GAMES}
+          to={routes.PLAYERS}
           primary="Player Stats"
           icon={<KeyboardArrowRight />}
         />
