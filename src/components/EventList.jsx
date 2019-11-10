@@ -4,27 +4,35 @@ import { gql } from "apollo-boost";
 import { Link } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const GET_EVENTS = gql`
-  {
-    events {
-      id
-      name
+const GET_RECENT_EVENTS = gql`
+{
+  events(limit: 10, order_by: {games_aggregate: {max: {game_datetime: desc_nulls_last}}}) {
+    id
+    name
+    games_aggregate {
+      aggregate {
+        max {
+          game_datetime
+        }
+        count
+      }
     }
   }
+}
 `;
 
 function EventList() {
-  const { data, loading, error } = useQuery(GET_EVENTS);
+  const { data, loading, error } = useQuery(GET_RECENT_EVENTS);
 
   return (
     <ul>
       {loading && <CircularProgress />}
       {error && <p>Error!</p>}
       {data &&
-        data.events.map(({ id, name }) => (
+        data.events.map(({ id, name, games_aggregate }) => (
           <li key={id}>
             <Link to={`/event/${id}`}>
-              {id} - {name}
+              {id} - {name} - {games_aggregate.aggregate.max.game_datetime} - {games_aggregate.aggregate.count}
             </Link>
           </li>
         ))}
