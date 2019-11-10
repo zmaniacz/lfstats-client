@@ -1,6 +1,4 @@
 import React from "react";
-import { configure } from "axios-hooks";
-import axios from "./utils/api";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -28,8 +26,6 @@ const theme = createMuiTheme({
     useNextVariants: true
   }
 });
-
-configure({ axios });
 
 function LFStats() {
   return (
