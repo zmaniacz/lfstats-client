@@ -5,21 +5,21 @@ import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const GET_FOOTER_STATS = gql`
-{
-  scorecards_aggregate {
-    aggregate {
-      count
-      sum {
-        shots_hit
+  {
+    scorecards_aggregate {
+      aggregate {
+        count
+        sum {
+          shots_hit
+        }
+      }
+    }
+    games_aggregate {
+      aggregate {
+        count
       }
     }
   }
-  games_aggregate {
-    aggregate {
-      count
-    }
-  }
-}
 `;
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +43,8 @@ export default function Footer() {
       <span className={classes.flip_H} role="img" aria-label="pewpew">
         🔫
       </span>
-      {data && (`Players have shot each other ${data.scorecards_aggregate.aggregate.sum.shots_hit} times in ${data.games_aggregate.aggregate.count} games with ${data.scorecards_aggregate.aggregate.count} individual scorecards`)}
+      {data &&
+        `Players have shot each other ${data.scorecards_aggregate.aggregate.sum.shots_hit} times in ${data.games_aggregate.aggregate.count} games with ${data.scorecards_aggregate.aggregate.count} individual scorecards`}
       <span role="img" aria-label="pewpew">
         🔫
       </span>

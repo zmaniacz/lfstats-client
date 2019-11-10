@@ -5,20 +5,23 @@ import { Link } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const GET_RECENT_EVENTS = gql`
-{
-  events(limit: 10, order_by: {games_aggregate: {max: {game_datetime: desc_nulls_last}}}) {
-    id
-    name
-    games_aggregate {
-      aggregate {
-        max {
-          game_datetime
+  {
+    events(
+      limit: 10
+      order_by: { games_aggregate: { max: { game_datetime: desc_nulls_last } } }
+    ) {
+      id
+      name
+      games_aggregate {
+        aggregate {
+          max {
+            game_datetime
+          }
+          count
         }
-        count
       }
     }
   }
-}
 `;
 
 function EventList() {
@@ -32,7 +35,8 @@ function EventList() {
         data.events.map(({ id, name, games_aggregate }) => (
           <li key={id}>
             <Link to={`/event/${id}`}>
-              {id} - {name} - {games_aggregate.aggregate.max.game_datetime} - {games_aggregate.aggregate.count}
+              {id} - {name} - {games_aggregate.aggregate.max.game_datetime} -{" "}
+              {games_aggregate.aggregate.count}
             </Link>
           </li>
         ))}
