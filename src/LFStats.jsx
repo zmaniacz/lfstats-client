@@ -31,7 +31,6 @@ function LFStats() {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
         <Router>
           <StateContext.Provider
             value={{
@@ -40,6 +39,7 @@ function LFStats() {
               typeFilter: "all"
             }}
           >
+            <CssBaseline />
             <LFMenu>
               <Route exact path={routes.LANDING}>
                 <EventList />

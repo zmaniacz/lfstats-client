@@ -9,7 +9,7 @@ export default function LoadError(props) {
   const styles = {
     icon: {
       margin: theme.spacing(1),
-      fontSize: 32
+      fontSize: 16
     }
   };
 

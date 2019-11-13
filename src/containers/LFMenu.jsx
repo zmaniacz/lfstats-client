@@ -105,13 +105,11 @@ export default function LFMenu(props) {
           </Drawer>
         </Hidden>
       </nav>
-      <div>
+      <Container maxWidth="xl" className={classes.container}>
         <div className={classes.toolbar} />
-        <Container maxWidth="xl" className={classes.container}>
-          {props.children}
-        </Container>
+        {props.children}
         <Footer />
-      </div>
+      </Container>
     </div>
   );
 }

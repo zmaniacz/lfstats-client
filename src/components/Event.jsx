@@ -8,33 +8,32 @@ import CompactScorecardList from "./CompactScorecardList";
 import LoadError from "./LoadError";
 
 const GET_EVENT = gql`
-  query Event($id: Int!) {
-    event(id: $id) {
+  query GetEvent($id: bigint) {
+    events(where: { id: { _eq: $id } }) {
       id
       name
       description
-      type
-      isComp
-      lastGameTime
-      center {
-        id
-      }
-      games {
-        id
+      is_comp
+      games_aggregate {
+        aggregate {
+          max {
+            game_datetime
+          }
+        }
       }
       scorecards {
         id
-        playerName
+        player_name
         position
         score
-        mvp
-        hitDiff
-        medicHits
+        mvp_points
+        medic_hits
         accuracy
-        shotTeam
+        shot_team
+        hit_diff
         game {
           id
-          name
+          game_name
         }
       }
     }
@@ -74,7 +73,9 @@ export default function Event(props) {
           </div>
         )}
         {error && <LoadError />}
-        {data && <CompactScorecardList scorecards={data.event.scorecards} />}
+        {data && (
+          <CompactScorecardList scorecards={data.events[0].scorecards} />
+        )}
       </Paper>
     </div>
   );

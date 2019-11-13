@@ -31,11 +31,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function Footer() {
   const classes = useStyles();
-  const { data, loading, error } = useQuery(GET_FOOTER_STATS);
+  const { data } = useQuery(GET_FOOTER_STATS);
 
   return (
     <Typography
-      variant="h6"
+      variant="caption"
       className={classes.footer}
       align="center"
       color="textSecondary"

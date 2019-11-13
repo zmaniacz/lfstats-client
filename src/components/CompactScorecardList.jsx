@@ -18,24 +18,24 @@ import HitDiffTypeProvider from "./HitDiffTypeProvider";
 
 function CompactScorecardList({ scorecards }) {
   const columns = [
-    { title: "Name", name: "playerName" },
+    { title: "Name", name: "player_name" },
     {
       title: "Game",
       name: "name",
       getCellValue: row => {
-        return row.game.name;
+        return row.game.game_name;
       }
     },
     { title: "Position", name: "position" },
     { title: "Score", name: "score" },
-    { title: "MVP", name: "mvp" },
-    { title: "Hit Diff", name: "hitDiff" },
-    { title: "Medic Hits", name: "medicHits" },
+    { title: "MVP", name: "mvp_points" },
+    { title: "Hit Diff", name: "hit_diff" },
+    { title: "Medic Hits", name: "medic_hits" },
     { title: "Accuracy", name: "accuracy" },
-    { title: "Shot Team", name: "shotTeam" }
+    { title: "Shot Team", name: "shot_team" }
   ];
 
-  const hitDiffColumns = ["hitDiff"];
+  const hitDiffColumns = ["hit_diff"];
 
   return (
     <Grid columns={columns} rows={scorecards}>
@@ -44,7 +44,7 @@ function CompactScorecardList({ scorecards }) {
       />
       <PagingState defaultCurrentPage={0} pageSize={10} />
       <IntegratedSorting />
-      <HitDiffTypeProvider for={hitDiffColumns} />
+
       <FilteringState defaultFilters={[]} />
       <IntegratedFiltering />
       <IntegratedPaging />
