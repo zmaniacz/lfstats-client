@@ -1,46 +1,92 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment } from "react";
+import EuiCustomLink from "./EuiCustomLink";
 import {
-  Grid,
-  Table,
-  TableHeaderRow
-} from "@devexpress/dx-react-grid-bootstrap4";
-import { Row, Col } from "reactstrap";
-import PdfLinkTypeProvider from "./PdfLinkTypeProvider";
-import LFTable from "./LFTable";
+  EuiInMemoryTable,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiPageContentBody,
+  EuiPageContentHeader,
+  EuiPageContentHeaderSection,
+  EuiTitle,
+  EuiText
+} from "@elastic/eui";
 
-const GameList = ({ games }) => {
+export default data => {
   const columns = [
-    { title: "Game Name", name: "name" },
-    { title: "Winner Score", name: "winnerScore" },
-    { title: "Loser Score", name: "loserScore" },
-    { title: "PDF", name: "pdfLink" }
+    {
+      field: "game_name",
+      name: "Game",
+      sortable: true,
+      render: (game_name, item) => (
+        <EuiCustomLink to={`/games/${item.id}`}>{game_name}</EuiCustomLink>
+      )
+    },
+    {
+      field: "game_datetime",
+      name: "time",
+      sortable: true
+    },
+    {
+      field: "winner",
+      name: "Winner Score",
+      sortable: true,
+      render: (winner, item) => {
+        let score = 0;
+        let color = "default";
+        if (item.winner === "red") {
+          score = item.red_adj + item.red_score;
+          color = "danger";
+        } else {
+          score = item.green_adj + item.green_score;
+          color = "secondary";
+        }
+
+        return <EuiText color={color}>{score}</EuiText>;
+      }
+    },
+    {
+      field: "loser",
+      name: "Loser Score",
+      sortable: true,
+      render: (loser, item) => {
+        let score = 0;
+        let color = "default";
+        if (item.winner === "red") {
+          score = item.green_adj + item.green_score;
+          color = "secondary";
+        } else {
+          score = item.red_adj + item.red_score;
+          color = "danger";
+        }
+
+        return <EuiText color={color}>{score}</EuiText>;
+      }
+    }
   ];
 
-  const pdfColumns = ["pdfLink"];
-
-  const rows = games.map(game => ({
-    id: game.id,
-    startTime: game.startTime,
-    name: game.name,
-    winnerScore: game.winner === "red" ? game.redScore : game.greenScore,
-    loserScore: game.winner === "red" ? game.greenScore : game.redScore,
-    pdfLink: game.pdfLink
-  }));
+  console.log(data);
 
   return (
-    <Row>
-      <Col xs={{ size: 8, offset: 2 }}>
-        <div className="m-2">
-          <Grid columns={columns} rows={rows}>
-            <PdfLinkTypeProvider for={pdfColumns} />
-            <Table tableComponent={LFTable} />
-            <TableHeaderRow />
-          </Grid>
-        </div>
-      </Col>
-    </Row>
+    <Fragment>
+      <EuiPageContentHeader>
+        <EuiPageContentHeaderSection>
+          <EuiTitle>
+            <h2>Scorecards</h2>
+          </EuiTitle>
+        </EuiPageContentHeaderSection>
+      </EuiPageContentHeader>
+      <EuiPageContentBody>
+        <EuiFlexGroup justifyContent="center">
+          <EuiFlexItem grow={false}>
+            <EuiInMemoryTable
+              columns={columns}
+              items={data.data}
+              compressed={true}
+              pagination={true}
+            />
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiPageContentBody>
+    </Fragment>
   );
 };
-
-export default GameList;

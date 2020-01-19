@@ -1,15 +1,7 @@
 import React from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { createMuiTheme, CssBaseline } from "@material-ui/core";
-import { ThemeProvider } from "@material-ui/core/styles";
-import blue from "@material-ui/core/colors/blue";
-import deepOrange from "@material-ui/core/colors/deepOrange";
-import LFMenu from "./containers/LFMenu";
-import EventList from "./components/EventList";
-import Event from "./components/Event";
-import * as routes from "./routes";
+import LFApp from "./containers/LFApp";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URI
@@ -17,45 +9,18 @@ const client = new ApolloClient({
 
 const StateContext = React.createContext();
 
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-    secondary: deepOrange
-  },
-  typography: {
-    useNextVariants: true
-  }
-});
-
 function LFStats() {
   return (
     <ApolloProvider client={client}>
-      <ThemeProvider theme={theme}>
-        <Router>
-          <StateContext.Provider
-            value={{
-              selectedEvent: null,
-              selectedCenter: null,
-              typeFilter: "all"
-            }}
-          >
-            <CssBaseline />
-            <LFMenu>
-              <Route exact path={routes.LANDING}>
-                <EventList />
-              </Route>
-              <Switch>
-                <Route path={routes.EVENTS}>
-                  <EventList />
-                </Route>
-                <Route path={routes.EVENT}>
-                  <Event />
-                </Route>
-              </Switch>
-            </LFMenu>
-          </StateContext.Provider>
-        </Router>
-      </ThemeProvider>
+      <StateContext.Provider
+        value={{
+          selectedEvent: null,
+          selectedCenter: null,
+          typeFilter: "all"
+        }}
+      >
+        <LFApp />
+      </StateContext.Provider>
     </ApolloProvider>
   );
 }

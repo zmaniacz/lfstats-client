@@ -3,37 +3,41 @@ import {
   EuiPageContent,
   EuiPageHeader,
   EuiPageHeaderSection,
-  EuiTitle
+  EuiTitle,
+  EuiLoadingSpinner
 } from "@elastic/eui";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { useParams } from "react-router-dom";
-import EventScorecardList from "./EventScorecardList";
-import EventScorecardSummary from "./EventScorecardSummary";
+import LoadError from "./LoadError";
+import GameList from "./GameList";
 
-const GET_EVENT = gql`
+const GET_EVENT_GAMES = gql`
   query GetEvent($id: bigint) {
     events(where: { id: { _eq: $id } }) {
-      id
       name
-      description
-      is_comp
-      games_aggregate {
-        aggregate {
-          max {
-            game_datetime
-          }
-        }
+      games {
+        game_name
+        game_datetime
+        game_length
+        green_score
+        green_adj
+        red_score
+        red_team_id
+        green_team_id
+        red_adj
+        pdf_id
+        winner
+        id
       }
     }
   }
 `;
 
-export default function Event() {
+export default function EventGameListContainer() {
   const { eventId } = useParams();
-  console.log("event", eventId);
 
-  const { data } = useQuery(GET_EVENT, {
+  const { data, loading, error } = useQuery(GET_EVENT_GAMES, {
     variables: { id: eventId * 1 }
   });
 
@@ -42,13 +46,14 @@ export default function Event() {
       <EuiPageHeader>
         <EuiPageHeaderSection>
           <EuiTitle size="l">
-            <h1>Event Stats{data && ` - ${data.events[0].name}`}</h1>
+            <h1>Game List{data && ` - ${data.events[0].name}`}</h1>
           </EuiTitle>
         </EuiPageHeaderSection>
       </EuiPageHeader>
       <EuiPageContent>
-        <EventScorecardList eventId={eventId} />
-        <EventScorecardSummary eventId={eventId} />
+        {loading && <EuiLoadingSpinner size="xl" />}
+        {error && <LoadError />}
+        {data && <GameList data={data.events[0].games} />}
       </EuiPageContent>
     </Fragment>
   );
