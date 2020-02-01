@@ -1,0 +1,126 @@
+import React from "react";
+import { EuiInMemoryTable } from "@elastic/eui";
+import EuiCustomLink from "./EuiCustomLink";
+
+export default function ScorecardList({ scorecards }) {
+  const columns = [
+    {
+      field: "player_name",
+      name: "Name",
+      dataType: "string",
+      sortable: true,
+      render: (player_name, item) => (
+        <EuiCustomLink to={`/players/${item.player.id}`}>
+          {player_name}
+        </EuiCustomLink>
+      )
+    },
+    {
+      field: "position",
+      name: "Position",
+      dataType: "string",
+      sortable: true
+    },
+    {
+      field: "game.game_name",
+      name: "Game",
+      dataType: "string",
+      sortable: true,
+      render: (name, item) => {
+        return (
+          <EuiCustomLink to={`/games/${item.game.id}`}>{name}</EuiCustomLink>
+        );
+      }
+    },
+    { field: "score", name: "Score", dataType: "number", sortable: true },
+    {
+      field: "mvp_points",
+      name: "MVP",
+      dataType: "number",
+      sortable: true,
+      render: (name, item) => {
+        return <span>{Number.parseFloat(name).toFixed(2)}</span>;
+      }
+    },
+    {
+      field: "hit_diff",
+      name: "Hit Diff",
+      dataType: "number",
+      sortable: true,
+      render: (name, item) => {
+        return <span>{Number.parseFloat(name).toFixed(2)}</span>;
+      }
+    },
+    {
+      field: "medic_hits",
+      name: "Medic Hits",
+      dataType: "number",
+      sortable: true
+    },
+    {
+      field: "accuracy",
+      name: "Accuracy",
+      dataType: "number",
+      sortable: true,
+      render: (name, item) => {
+        return <span>{Number.parseFloat(name * 100).toFixed(2)} %</span>;
+      }
+    },
+    {
+      field: "shot_team",
+      name: "Shot Team",
+      dataType: "number",
+      sortable: true
+    }
+  ];
+
+  const sorting = {
+    sort: {
+      field: "mvp_points",
+      direction: "desc"
+    },
+    allowNeutralSort: false
+  };
+
+  const search = {
+    box: {
+      incremental: true
+    },
+    filters: [
+      {
+        type: "field_value_selection",
+        field: "position",
+        name: "Position",
+        multiSelect: "or",
+        options: [
+          {
+            value: "Commander"
+          },
+          {
+            value: "Heavy Weapons"
+          },
+          {
+            value: "Scout"
+          },
+          {
+            value: "Ammo Carrier"
+          },
+          {
+            value: "Medic"
+          }
+        ]
+      }
+    ]
+  };
+
+  return (
+    <EuiInMemoryTable
+      columns={columns}
+      items={scorecards}
+      search={search}
+      compressed={true}
+      pagination={true}
+      sorting={sorting}
+    />
+  );
+}

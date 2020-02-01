@@ -3,7 +3,7 @@ import { Switch, Route, useRouteMatch } from "react-router-dom";
 import Event from "./Event";
 import EventGameListContainer from "./EventGameListContainer";
 
-export default function Events() {
+export default function EventsContainer() {
   let match = useRouteMatch();
 
   return (

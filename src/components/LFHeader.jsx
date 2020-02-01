@@ -3,41 +3,31 @@ import {
   EuiHeader,
   EuiHeaderSection,
   EuiHeaderSectionItem,
-  EuiHeaderSectionItemButton,
-  EuiIcon,
   EuiHeaderLinks,
-  EuiHeaderLink,
-  EuiHeaderLogo,
-  EuiShowFor
+  EuiHeaderLink
 } from "@elastic/eui";
-import UserMenu from "../components/UserMenu";
-import * as routes from "./../routes";
+import EuiCustomHeaderLink from "./EuiCustomHeaderLink";
+import EuiCustomHeaderLogo from "./EuiCustomHeaderLogo";
+import UserMenu from "./UserMenu";
 import "@elastic/eui/dist/eui_theme_light.css";
 
 export default () => (
   <EuiHeader>
     <EuiHeaderSection grow={false}>
-      <EuiShowFor sizes={["xs", "s"]}>
-        <EuiHeaderSectionItem border="right">
-          <EuiHeaderSectionItemButton
-            aria-label="Open nav"
-            onClick={() => this.navDrawerRef.toggleOpen()}
-          >
-            <EuiIcon type="apps" href="#" size="m" />
-          </EuiHeaderSectionItemButton>
-        </EuiHeaderSectionItem>
-      </EuiShowFor>
       <EuiHeaderSectionItem border="right">
-        <EuiHeaderLogo
+        <EuiCustomHeaderLogo
           iconType="grokApp"
-          href={routes.LANDING}
+          to="/"
           aria-label="Goes to home"
         >
           LFStats
-        </EuiHeaderLogo>
+        </EuiCustomHeaderLogo>
       </EuiHeaderSectionItem>
     </EuiHeaderSection>
     <EuiHeaderLinks>
+      <EuiCustomHeaderLink to="/events">Event Stats</EuiCustomHeaderLink>
+      <EuiCustomHeaderLink to="/players">Player Stats</EuiCustomHeaderLink>
+      <EuiCustomHeaderLink to="/centers">Center Stats</EuiCustomHeaderLink>
       <EuiHeaderLink href="#">About SM5</EuiHeaderLink>
       <EuiHeaderLink href="#">Twitch</EuiHeaderLink>
     </EuiHeaderLinks>

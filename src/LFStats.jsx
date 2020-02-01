@@ -1,7 +1,7 @@
 import React from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
-import LFApp from "./containers/LFApp";
+import LFApp from "./components/LFApp";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URI
