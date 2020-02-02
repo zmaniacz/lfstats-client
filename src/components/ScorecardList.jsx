@@ -3,6 +3,13 @@ import { EuiInMemoryTable } from "@elastic/eui";
 import EuiCustomLink from "./EuiCustomLink";
 
 export default function ScorecardList({ scorecards }) {
+  const items = scorecards.map(item => {
+    return {
+      game_name: item.game.game_name,
+      ...item
+    };
+  });
+
   const columns = [
     {
       field: "player_name",
@@ -116,7 +123,7 @@ export default function ScorecardList({ scorecards }) {
   return (
     <EuiInMemoryTable
       columns={columns}
-      items={scorecards}
+      items={items}
       search={search}
       compressed={true}
       pagination={true}

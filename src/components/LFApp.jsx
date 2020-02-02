@@ -9,7 +9,7 @@ import CentersContainer from "./CentersContainer";
 import Footer from "./Footer";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import "@elastic/eui/dist/eui_theme_dark.css";
+import "@elastic/eui/dist/eui_theme_light.css";
 
 export default () => (
   <Router>
