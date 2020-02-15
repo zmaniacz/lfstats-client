@@ -1,17 +1,11 @@
 import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import { StateContext } from "../utils/StateContext";
 import { EuiInMemoryTable } from "@elastic/eui";
 import EuiCustomLink from "./EuiCustomLink";
 
-export default function ScorecardList({ scorecards }) {
+export default function ScorecardList({ data }) {
   const [state] = useContext(StateContext);
-
-  const items = scorecards.map(item => {
-    return {
-      game_name: item.game.game_name,
-      ...item
-    };
-  });
 
   const columns = [
     {
@@ -20,7 +14,7 @@ export default function ScorecardList({ scorecards }) {
       dataType: "string",
       sortable: true,
       render: (player_name, item) => (
-        <EuiCustomLink to={`/players/${item.player.id}`}>
+        <EuiCustomLink to={`/players/${item.player_id}`}>
           {player_name}
         </EuiCustomLink>
       )
@@ -32,13 +26,13 @@ export default function ScorecardList({ scorecards }) {
       sortable: true
     },
     {
-      field: "game.game_name",
+      field: "game_name",
       name: "Game",
       dataType: "string",
       sortable: true,
       render: (name, item) => {
         return (
-          <EuiCustomLink to={`/games/${item.game.id}`}>{name}</EuiCustomLink>
+          <EuiCustomLink to={`/games/${item.game_id}`}>{name}</EuiCustomLink>
         );
       }
     },
@@ -135,7 +129,7 @@ export default function ScorecardList({ scorecards }) {
   return (
     <EuiInMemoryTable
       columns={columns}
-      items={items}
+      items={data}
       search={search}
       compressed={true}
       pagination={true}
@@ -143,3 +137,26 @@ export default function ScorecardList({ scorecards }) {
     />
   );
 }
+
+ScorecardList.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      player_id: PropTypes.number,
+      player_name: PropTypes.string,
+      position: PropTypes.string,
+      team: PropTypes.string,
+      score: PropTypes.number,
+      mvp_points: PropTypes.number,
+      medic_hits: PropTypes.number,
+      accuracy: PropTypes.number,
+      shot_team: PropTypes.number,
+      hit_diff: PropTypes.number,
+      shot_opponent: PropTypes.number,
+      times_zapped: PropTypes.number,
+      game_id: PropTypes.number,
+      game_name: PropTypes.string,
+      game_winner: PropTypes.string
+    })
+  )
+};
