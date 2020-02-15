@@ -13,17 +13,21 @@ export default function ScorecardList({ data }) {
       name: "Name",
       dataType: "string",
       sortable: true,
-      render: (player_name, item) => (
-        <EuiCustomLink to={`/players/${item.player_id}`}>
-          {player_name}
-        </EuiCustomLink>
+      render: (name, item) => (
+        <EuiCustomLink to={`/players/${item.player_id}`}>{name}</EuiCustomLink>
       )
     },
     {
       field: "position",
       name: "Position",
       dataType: "string",
-      sortable: true
+      sortable: true,
+      render: (name, item) => {
+        let teamColor = state.redTeamColor;
+        if (item.team === "green") teamColor = state.greenTeamColor;
+
+        return <span style={{ color: teamColor }}>{name}</span>;
+      }
     },
     {
       field: "game_name",
@@ -36,6 +40,15 @@ export default function ScorecardList({ data }) {
         );
       }
     },
+    {
+      field: "game_winner",
+      name: "Result",
+      dataType: "string",
+      sortable: false,
+      render: (name, item) => {
+        return item.game_winner === item.team ? "W" : "L";
+      }
+    },
     { field: "score", name: "Score", dataType: "number", sortable: true },
     {
       field: "mvp_points",
@@ -43,11 +56,7 @@ export default function ScorecardList({ data }) {
       dataType: "number",
       sortable: true,
       render: (name, item) => {
-        return (
-          <span style={{ color: state.redTeamColor }}>
-            {Number.parseFloat(name).toFixed(2)}
-          </span>
-        );
+        return Number.parseFloat(name).toFixed(2);
       }
     },
     {

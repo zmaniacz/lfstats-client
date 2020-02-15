@@ -60,7 +60,7 @@ export default function EventScorecardListContainer({ eventId }) {
       times_zapped: item.times_zapped,
       game_id: item.game.id,
       game_name: item.game.game_name,
-      game_winner: item.game.game_winner
+      game_winner: item.game.winner
     };
   });
 
