@@ -6,6 +6,7 @@ import Landing from "./Landing";
 import EventsContainer from "./EventsContainer";
 import PlayersContainer from "./PlayersContainer";
 import CentersContainer from "./CentersContainer";
+import GameContainer from "./GameContainer";
 import Footer from "./Footer";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -22,6 +23,9 @@ export default () => (
           </Route>
           <Route path="/events">
             <EventsContainer />
+          </Route>
+          <Route path="/games">
+            <GameContainer />
           </Route>
           <Route path="/players">
             <PlayersContainer />
