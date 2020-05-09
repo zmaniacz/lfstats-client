@@ -15,6 +15,7 @@ import LoadError from "./LoadError";
 import { gql } from "apollo-boost";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
+import TeamScorecard from "./TeamScorecard.tsx";
 
 const GET_GAME = gql`
   query GetGame($id: bigint) {
@@ -55,6 +56,14 @@ const GET_GAME = gql`
         type
         value
       }
+      event_team {
+        id
+        name
+      }
+      eventTeamByGreenTeamId {
+        id
+        name
+      }
     }
   }
 `;
@@ -71,10 +80,11 @@ export default function Game() {
 
   let game = data.games[0];
   let redTeam = {
-    team: "red",
+    team_color: "red",
     score: game.red_score,
     adj: game.red_adj,
     team_id: game.red_team_id,
+    event_team: game.event_team,
     scorecards: game.scorecards.filter(item => {
       return item.team === "red" ? item : null;
     }),
@@ -83,10 +93,11 @@ export default function Game() {
     })
   };
   let greenTeam = {
-    team: "green",
+    team_color: "green",
     score: game.green_score,
     adj: game.green_adj,
     team_id: game.green_team_id,
+    event_team: game.eventTeamByGreenTeamId,
     scorecards: game.scorecards.filter(item => {
       return item.team === "green" ? item : null;
     }),
@@ -109,12 +120,16 @@ export default function Game() {
         <EuiPageContentBody>
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem>
-              <EuiPanel></EuiPanel>
+              <EuiPanel>
+                <TeamScorecard team={redTeam} />
+              </EuiPanel>
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem>
-              <EuiPanel></EuiPanel>
+              <EuiPanel>
+                <TeamScorecard team={greenTeam} />
+              </EuiPanel>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiPageContentBody>
