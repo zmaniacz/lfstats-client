@@ -1,16 +1,7 @@
 import React, { useContext } from "react";
 import { StateContext } from "../utils/StateContext";
 
-interface TeamScorecardItem {
-  team_color: String;
-  score: Number;
-  adj: Number;
-  team_id: Number;
-  scorecards: Array<Object>;
-  team_penalties: Array<Object>;
-}
-
-const TeamScorecard = ({ team }: { team: TeamScorecardItem }): JSX.Element => {
+const TeamScorecard = ({ team }) => {
   const [state] = useContext(StateContext);
   let teamColor =
     team.team_color === "red" ? state.redTeamColor : state.greenTeamColor;

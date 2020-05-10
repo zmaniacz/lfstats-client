@@ -9,13 +9,13 @@ import {
   EuiFlexItem,
   EuiSpacer,
   EuiLoadingSpinner,
-  EuiPanel
+  EuiPanel,
 } from "@elastic/eui";
 import LoadError from "./LoadError";
 import { gql } from "apollo-boost";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
-import TeamScorecard from "./TeamScorecard.tsx";
+import TeamScorecard from "./TeamScorecard.jsx";
 
 const GET_GAME = gql`
   query GetGame($id: bigint) {
@@ -72,7 +72,7 @@ export default function Game() {
   const { gameId } = useParams();
 
   const { data, loading, error } = useQuery(GET_GAME, {
-    variables: { id: gameId * 1 }
+    variables: { id: gameId * 1 },
   });
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
@@ -85,12 +85,12 @@ export default function Game() {
     adj: game.red_adj,
     team_id: game.red_team_id,
     event_team: game.event_team,
-    scorecards: game.scorecards.filter(item => {
+    scorecards: game.scorecards.filter((item) => {
       return item.team === "red" ? item : null;
     }),
-    team_penalties: game.team_penalties.filter(item => {
+    team_penalties: game.team_penalties.filter((item) => {
       return item.team_color === "red" ? item : null;
-    })
+    }),
   };
   let greenTeam = {
     team_color: "green",
@@ -98,12 +98,12 @@ export default function Game() {
     adj: game.green_adj,
     team_id: game.green_team_id,
     event_team: game.eventTeamByGreenTeamId,
-    scorecards: game.scorecards.filter(item => {
+    scorecards: game.scorecards.filter((item) => {
       return item.team === "green" ? item : null;
     }),
-    team_penalties: game.team_penalties.filter(item => {
+    team_penalties: game.team_penalties.filter((item) => {
       return item.team_color === "green" ? item : null;
-    })
+    }),
   };
 
   return (
