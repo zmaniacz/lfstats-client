@@ -10,18 +10,25 @@ const GET_EVENT_GAMES = gql`
     events(where: { id: { _eq: $id } }) {
       name
       games {
+        id
         game_name
         game_datetime
         game_length
-        green_score
-        green_adj
-        red_score
-        red_team_id
-        green_team_id
-        red_adj
-        pdf_id
-        winner
-        id
+        winner {
+          id
+          color_enum
+          total_score
+        }
+        loser {
+          id
+          color_enum
+          total_score
+        }
+        game_teams(where: { neutral_team: { _eq: false } }) {
+          id
+          total_score
+          color_enum
+        }
       }
     }
   }
@@ -29,7 +36,7 @@ const GET_EVENT_GAMES = gql`
 
 export default function EventGameListContainer({ eventId }) {
   const { data, loading, error } = useQuery(GET_EVENT_GAMES, {
-    variables: { id: eventId * 1 }
+    variables: { id: eventId * 1 },
   });
 
   if (loading) return <EuiLoadingSpinner size="xl" />;

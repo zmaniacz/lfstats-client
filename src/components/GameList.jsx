@@ -4,7 +4,7 @@ import EuiCustomLink from "./EuiCustomLink";
 import moment from "moment";
 import { EuiInMemoryTable } from "@elastic/eui";
 
-export default data => {
+export default (data) => {
   const [state] = useContext(StateContext);
 
   const columns = [
@@ -14,7 +14,7 @@ export default data => {
       sortable: true,
       render: (game_name, item) => (
         <EuiCustomLink to={`/games/${item.id}`}>{game_name}</EuiCustomLink>
-      )
+      ),
     },
     {
       field: "game_datetime",
@@ -23,50 +23,40 @@ export default data => {
       render: (game_datetime, item) => {
         console.log(moment(game_datetime));
         return moment.utc(game_datetime).format("YYYY-MM-DD HH:mm");
-      }
+      },
     },
     {
       field: "winner",
       name: "Winner Score",
       sortable: true,
       render: (winner, item) => {
-        let score = 0;
-        let teamColor = state.redTeamColor;
-        if (item.winner === "red") {
-          score = item.red_adj + item.red_score;
-        } else {
-          score = item.green_adj + item.green_score;
-          teamColor = state.greenTeamColor;
-        }
-
-        return <span style={{ color: teamColor }}>{score}</span>;
-      }
+        return (
+          <span style={{ color: state.teamColors[winner[0].color_enum] }}>
+            {winner[0].total_score}
+          </span>
+        );
+      },
     },
     {
       field: "loser",
       name: "Loser Score",
       sortable: true,
       render: (loser, item) => {
-        let score = 0;
-        let teamColor = state.redTeamColor;
-        if (item.winner !== "red") {
-          score = item.red_adj + item.red_score;
-        } else {
-          score = item.green_adj + item.green_score;
-          teamColor = state.greenTeamColor;
-        }
-
-        return <span style={{ color: teamColor }}>{score}</span>;
-      }
-    }
+        return (
+          <span style={{ color: state.teamColors[loser[0].color_enum] }}>
+            {loser[0].total_score}
+          </span>
+        );
+      },
+    },
   ];
 
   const sorting = {
     sort: {
       field: "game_datetime",
-      direction: "asc"
+      direction: "asc",
     },
-    allowNeutralSort: false
+    allowNeutralSort: false,
   };
 
   return (
