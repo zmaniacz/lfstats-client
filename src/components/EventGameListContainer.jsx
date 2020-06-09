@@ -24,11 +24,6 @@ const GET_EVENT_GAMES = gql`
           color_enum
           total_score
         }
-        game_teams(where: { neutral_team: { _eq: false } }) {
-          id
-          total_score
-          color_enum
-        }
       }
     }
   }

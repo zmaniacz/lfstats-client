@@ -21,7 +21,6 @@ export default (data) => {
       name: "Time",
       sortable: true,
       render: (game_datetime, item) => {
-        console.log(moment(game_datetime));
         return moment.utc(game_datetime).format("YYYY-MM-DD HH:mm");
       },
     },

@@ -44,7 +44,6 @@ export default function ScorecardList({ data }) {
       dataType: "string",
       sortable: false,
       render: (name, item) => {
-        console.log(item);
         return item.game_winner_color_enum === item.team_color_enum ? "W" : "L";
       },
     },

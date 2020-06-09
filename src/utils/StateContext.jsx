@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { euiPaletteColorBlind } from "@elastic/eui/lib/services";
 
 const StateContext = React.createContext([{}, () => {}]);
 
@@ -14,18 +13,17 @@ Team Color Enum
 */
 
 const StateProvider = (props) => {
-  const palette = euiPaletteColorBlind();
   const [state, setState] = useState({
     selectedEvent: null,
     selectedCenter: null,
     typeFilter: "all",
     teamColors: {
-      0: palette[6],
-      1: palette[9],
-      2: palette[0],
-      11: palette[9],
-      12: palette[3],
-      13: palette[0],
+      0: "gray",
+      1: "red",
+      2: "green",
+      11: "red",
+      12: "blue",
+      13: "green",
     },
   });
 

@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import {
+  EuiAccordion,
   EuiPageContent,
   EuiPageHeader,
   EuiPageHeaderSection,
@@ -12,7 +13,7 @@ import {
   EuiHorizontalRule,
   EuiLoadingSpinner,
   EuiTabbedContent,
-  EuiSpacer
+  EuiSpacer,
 } from "@elastic/eui";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
@@ -55,53 +56,59 @@ export default function Event() {
         <Fragment>
           <EuiSpacer />
           <EuiPageContent>
-            <EuiPageContentHeader>
-              <EuiPageContentHeaderSection>
+            <EuiAccordion
+              id="scorecardListAccordion"
+              initialIsOpen={true}
+              buttonContent={
                 <EuiTitle>
                   <h2>Scorecards</h2>
                 </EuiTitle>
-              </EuiPageContentHeaderSection>
-            </EuiPageContentHeader>
-            <EuiPageContentBody>
+              }
+            >
               <EuiFlexGroup justifyContent="center">
                 <EuiFlexItem grow={false}>
+                  <EuiSpacer />
                   <EventScorecardListContainer eventId={eventId} />
                 </EuiFlexItem>
               </EuiFlexGroup>
-            </EuiPageContentBody>
+            </EuiAccordion>
             <EuiHorizontalRule margin="xxl" />
-            <EuiPageContentHeader>
-              <EuiPageContentHeaderSection>
+            <EuiAccordion
+              id="summaryStatsAccordion"
+              initialIsOpen={true}
+              buttonContent={
                 <EuiTitle>
                   <h2>Summary Stats</h2>
                 </EuiTitle>
-              </EuiPageContentHeaderSection>
-            </EuiPageContentHeader>
-            <EuiPageContentBody>
+              }
+            >
               <EuiFlexGroup justifyContent="center">
                 <EuiFlexItem grow={false}>
+                  <EuiSpacer />
                   <EventScorecardSummaryContainer eventId={eventId} />
                 </EuiFlexItem>
               </EuiFlexGroup>
-            </EuiPageContentBody>
+            </EuiAccordion>
             <EuiHorizontalRule margin="xxl" />
-            <EuiPageContentHeader>
-              <EuiPageContentHeaderSection>
+            <EuiAccordion
+              id="medicHitsAccordion"
+              initialIsOpen={true}
+              buttonContent={
                 <EuiTitle>
                   <h2>Medic Hits</h2>
                 </EuiTitle>
-              </EuiPageContentHeaderSection>
-            </EuiPageContentHeader>
-            <EuiPageContentBody>
+              }
+            >
               <EuiFlexGroup justifyContent="center">
                 <EuiFlexItem grow={false}>
+                  <EuiSpacer />
                   <EventMedicHitSummaryContainer eventId={eventId} />
                 </EuiFlexItem>
               </EuiFlexGroup>
-            </EuiPageContentBody>
+            </EuiAccordion>
           </EuiPageContent>
         </Fragment>
-      )
+      ),
     },
     {
       id: "games",
@@ -126,12 +133,12 @@ export default function Event() {
             </EuiPageContentBody>
           </EuiPageContent>
         </Fragment>
-      )
-    }
+      ),
+    },
   ]);
 
   const { data, loading, error } = useQuery(GET_EVENT, {
-    variables: { id: eventId * 1 }
+    variables: { id: eventId * 1 },
   });
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
