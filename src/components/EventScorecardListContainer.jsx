@@ -12,7 +12,11 @@ const GET_EVENT_SCORECARDS = gql`
         id
         player_name
         position
-        team
+        game_team {
+          id
+          color_enum
+          rank
+        }
         score
         mvp_points
         medic_hits
@@ -24,7 +28,10 @@ const GET_EVENT_SCORECARDS = gql`
         game {
           id
           game_name
-          winner
+          winner {
+            id
+            color_enum
+          }
         }
         player {
           id
@@ -37,19 +44,20 @@ const GET_EVENT_SCORECARDS = gql`
 
 export default function EventScorecardListContainer({ eventId }) {
   const { data, loading, error } = useQuery(GET_EVENT_SCORECARDS, {
-    variables: { id: eventId * 1 }
+    variables: { id: eventId * 1 },
   });
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
 
-  const scorecards = data.events[0].scorecards.map(item => {
+  const scorecards = data.events[0].scorecards.map((item) => {
     return {
       id: item.id,
       player_id: item.player.id,
       player_name: item.player_name,
       position: item.position,
-      team: item.team,
+      team_color_enum: item.game_team.color_enum,
+      team_rank: item.game_team.rank,
       score: item.score,
       mvp_points: item.mvp_points,
       medic_hits: item.medic_hits,
@@ -60,7 +68,7 @@ export default function EventScorecardListContainer({ eventId }) {
       times_zapped: item.times_zapped,
       game_id: item.game.id,
       game_name: item.game.game_name,
-      game_winner: item.game.winner
+      game_winner_color_enum: item.game.winner[0].color_enum,
     };
   });
 

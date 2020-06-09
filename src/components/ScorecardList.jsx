@@ -15,7 +15,7 @@ export default function ScorecardList({ data }) {
       sortable: true,
       render: (name, item) => (
         <EuiCustomLink to={`/players/${item.player_id}`}>{name}</EuiCustomLink>
-      )
+      ),
     },
     {
       field: "position",
@@ -23,11 +23,9 @@ export default function ScorecardList({ data }) {
       dataType: "string",
       sortable: true,
       render: (name, item) => {
-        let teamColor = state.redTeamColor;
-        if (item.team === "green") teamColor = state.greenTeamColor;
-
+        let teamColor = state.teamColors[item.team_color_enum];
         return <span style={{ color: teamColor }}>{name}</span>;
-      }
+      },
     },
     {
       field: "game_name",
@@ -38,7 +36,7 @@ export default function ScorecardList({ data }) {
         return (
           <EuiCustomLink to={`/games/${item.game_id}`}>{name}</EuiCustomLink>
         );
-      }
+      },
     },
     {
       field: "game_winner",
@@ -46,8 +44,9 @@ export default function ScorecardList({ data }) {
       dataType: "string",
       sortable: false,
       render: (name, item) => {
-        return item.game_winner === item.team ? "W" : "L";
-      }
+        console.log(item);
+        return item.game_winner_color_enum === item.team_color_enum ? "W" : "L";
+      },
     },
     { field: "score", name: "Score", dataType: "number", sortable: true },
     {
@@ -57,7 +56,7 @@ export default function ScorecardList({ data }) {
       sortable: true,
       render: (name, item) => {
         return Number.parseFloat(name).toFixed(2);
-      }
+      },
     },
     {
       field: "hit_diff",
@@ -71,13 +70,13 @@ export default function ScorecardList({ data }) {
             {item.times_zapped})
           </span>
         );
-      }
+      },
     },
     {
       field: "medic_hits",
       name: "Medic Hits",
       dataType: "number",
-      sortable: true
+      sortable: true,
     },
     {
       field: "accuracy",
@@ -86,27 +85,27 @@ export default function ScorecardList({ data }) {
       sortable: true,
       render: (name, item) => {
         return <span>{Number.parseFloat(name * 100).toFixed(2)} %</span>;
-      }
+      },
     },
     {
       field: "shot_team",
       name: "Shot Team",
       dataType: "number",
-      sortable: true
-    }
+      sortable: true,
+    },
   ];
 
   const sorting = {
     sort: {
       field: "mvp_points",
-      direction: "desc"
+      direction: "desc",
     },
-    allowNeutralSort: false
+    allowNeutralSort: false,
   };
 
   const search = {
     box: {
-      incremental: true
+      incremental: true,
     },
     filters: [
       {
@@ -116,23 +115,23 @@ export default function ScorecardList({ data }) {
         multiSelect: "or",
         options: [
           {
-            value: "Commander"
+            value: "Commander",
           },
           {
-            value: "Heavy Weapons"
+            value: "Heavy Weapons",
           },
           {
-            value: "Scout"
+            value: "Scout",
           },
           {
-            value: "Ammo Carrier"
+            value: "Ammo Carrier",
           },
           {
-            value: "Medic"
-          }
-        ]
-      }
-    ]
+            value: "Medic",
+          },
+        ],
+      },
+    ],
   };
 
   return (
@@ -154,7 +153,8 @@ ScorecardList.propTypes = {
       player_id: PropTypes.number,
       player_name: PropTypes.string,
       position: PropTypes.string,
-      team: PropTypes.string,
+      team_color_enum: PropTypes.number,
+      team_rank: PropTypes.number,
       score: PropTypes.number,
       mvp_points: PropTypes.number,
       medic_hits: PropTypes.number,
@@ -165,7 +165,7 @@ ScorecardList.propTypes = {
       times_zapped: PropTypes.number,
       game_id: PropTypes.number,
       game_name: PropTypes.string,
-      game_winner: PropTypes.string
+      game_winner_color_enum: PropTypes.number,
     })
-  )
+  ),
 };

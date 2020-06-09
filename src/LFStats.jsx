@@ -5,7 +5,10 @@ import { StateProvider } from "./utils/StateContext";
 import LFApp from "./components/LFApp";
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_API_URI
+  uri: process.env.REACT_APP_API_URI,
+  headers: {
+    "x-hasura-admin-secret": process.env.REACT_APP_API_KEY,
+  },
 });
 
 function LFStats() {
