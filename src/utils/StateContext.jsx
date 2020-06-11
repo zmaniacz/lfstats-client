@@ -18,12 +18,12 @@ const StateProvider = (props) => {
     selectedCenter: null,
     typeFilter: "all",
     teamColors: {
-      0: "gray",
-      1: "red",
-      2: "green",
-      11: "red",
-      12: "blue",
-      13: "green",
+      0: "#424242",
+      1: "#c62828",
+      2: "#2e7d32",
+      11: "#c62828",
+      12: "#6a1b9a",
+      13: "#2e7d32",
     },
   });
 

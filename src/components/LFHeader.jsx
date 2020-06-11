@@ -4,7 +4,7 @@ import {
   EuiHeaderSection,
   EuiHeaderSectionItem,
   EuiHeaderLinks,
-  EuiHeaderLink
+  EuiHeaderLink,
 } from "@elastic/eui";
 import EuiCustomHeaderLink from "./EuiCustomHeaderLink";
 import EuiCustomHeaderLogo from "./EuiCustomHeaderLogo";

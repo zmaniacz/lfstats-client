@@ -1,15 +1,74 @@
-import React, { useContext } from "react";
+import React, { useContext, Fragment } from "react";
+import {
+  EuiFlexItem,
+  EuiFlexGroup,
+  EuiTitle,
+  EuiText,
+  EuiBadge,
+  EuiInMemoryTable,
+  EuiStat,
+  EuiAccordion,
+  EuiFlexGrid,
+} from "@elastic/eui";
 import { StateContext } from "../utils/StateContext";
 
 const TeamScorecard = ({ team }) => {
   const [state] = useContext(StateContext);
-  let teamColor =
-    team.team_color === "red" ? state.redTeamColor : state.greenTeamColor;
 
   return (
-    <h1>
-      <span style={{ color: teamColor }}>{team.team_color}</span>
-    </h1>
+    <Fragment>
+      <EuiFlexGroup justifyContent="spaceAround">
+        <EuiFlexItem grow={false}>
+          <EuiTitle size="m">
+            <EuiBadge color={state.teamColors[team.color_enum]}>
+              {team.color_desc} Team
+            </EuiBadge>
+          </EuiTitle>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+
+      <EuiAccordion
+        buttonContent={
+          <EuiFlexGroup justifyContent="spaceAround">
+            <EuiFlexItem>
+              <EuiStat
+                title={team.total_score}
+                description="Score"
+                titleSize="l"
+                reverse
+              />
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        }
+      >
+        <EuiFlexGroup>
+          <EuiFlexItem>
+            <EuiStat
+              title={team.raw_score}
+              description="Raw Score"
+              titleSize="xs"
+            />
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <EuiStat
+              title={team.elim_bonus}
+              description="Elim Bonus"
+              titleSize="xs"
+            />
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <EuiStat
+              title={0}
+              description="Individual Penalties"
+              titleSize="xs"
+            />
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <EuiStat title={0} description="Team Penalties" titleSize="xs" />
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiAccordion>
+    </Fragment>
   );
 };
 

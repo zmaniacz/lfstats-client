@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { StateContext } from "../utils/StateContext";
-import { EuiInMemoryTable } from "@elastic/eui";
+import { EuiInMemoryTable, EuiHealth } from "@elastic/eui";
 import EuiCustomLink from "./EuiCustomLink";
 
 export default function ScorecardList({ data }) {
@@ -13,6 +13,8 @@ export default function ScorecardList({ data }) {
       name: "Name",
       dataType: "string",
       sortable: true,
+      width: "15%",
+      truncateText: true,
       render: (name, item) => (
         <EuiCustomLink to={`/players/${item.player_id}`}>{name}</EuiCustomLink>
       ),
@@ -22,9 +24,10 @@ export default function ScorecardList({ data }) {
       name: "Position",
       dataType: "string",
       sortable: true,
+      width: "15%",
       render: (name, item) => {
         let teamColor = state.teamColors[item.team_color_enum];
-        return <span style={{ color: teamColor }}>{name}</span>;
+        return <EuiHealth color={teamColor}>{name}</EuiHealth>;
       },
     },
     {
@@ -36,15 +39,6 @@ export default function ScorecardList({ data }) {
         return (
           <EuiCustomLink to={`/games/${item.game_id}`}>{name}</EuiCustomLink>
         );
-      },
-    },
-    {
-      field: "game_winner",
-      name: "Result",
-      dataType: "string",
-      sortable: false,
-      render: (name, item) => {
-        return item.game_winner_color_enum === item.team_color_enum ? "W" : "L";
       },
     },
     { field: "score", name: "Score", dataType: "number", sortable: true },

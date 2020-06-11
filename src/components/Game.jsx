@@ -23,46 +23,104 @@ const GET_GAME = gql`
       id
       game_name
       game_datetime
-      game_description
       game_length
-      green_adj
-      green_eliminated
-      green_score
-      green_team_id
-      red_adj
-      red_eliminated
-      red_score
-      red_team_id
       pdf_id
-      type
-      winner
-      scorecards {
+      tdf_key
+      winner {
         id
-        player_name
-        player_id
-        team
-        penaltiesByScorecardId {
+        color_desc
+        color_enum
+        total_score
+        raw_score
+        elim_bonus
+        adjustment
+        scorecards {
           id
-          in_game
-          mvp_value
+          player_name
+          player_id
+          is_sub
+          position
+          score
+          mvp_points
+          lives_left
+          shots_left
+          hit_diff
+          missiled_opponent
+          times_missiled
+          medic_hits
+          shot_team
+          missiled_team
+          accuracy
+          sp_earned
+          sp_spent
+          nukes_activated
+          nukes_detonated
+          nukes_canceled
+          ammo_boost
+          life_boost
+          resupplies
+          penalties {
+            id
+            in_game
+            mvp_value
+            value
+            type
+            rescinded
+          }
+        }
+        team_penalties {
+          id
           type
           value
-          rescinded
         }
       }
-      team_penalties {
+      loser {
         id
-        team_color
-        type
-        value
-      }
-      event_team {
-        id
-        name
-      }
-      eventTeamByGreenTeamId {
-        id
-        name
+        color_desc
+        color_enum
+        total_score
+        raw_score
+        elim_bonus
+        adjustment
+        scorecards {
+          id
+          player_name
+          player_id
+          is_sub
+          position
+          score
+          mvp_points
+          lives_left
+          shots_left
+          hit_diff
+          missiled_opponent
+          times_missiled
+          medic_hits
+          shot_team
+          missiled_team
+          accuracy
+          sp_earned
+          sp_spent
+          nukes_activated
+          nukes_detonated
+          nukes_canceled
+          ammo_boost
+          life_boost
+          resupplies
+          penalties {
+            id
+            in_game
+            mvp_value
+            value
+            type
+            rescinded
+          }
+        }
+        team_penalties {
+          id
+          type
+          value
+        }
       }
     }
   }
@@ -79,32 +137,6 @@ export default function Game() {
   if (error) return <LoadError />;
 
   let game = data.games[0];
-  let redTeam = {
-    team_color: "red",
-    score: game.red_score,
-    adj: game.red_adj,
-    team_id: game.red_team_id,
-    event_team: game.event_team,
-    scorecards: game.scorecards.filter((item) => {
-      return item.team === "red" ? item : null;
-    }),
-    team_penalties: game.team_penalties.filter((item) => {
-      return item.team_color === "red" ? item : null;
-    }),
-  };
-  let greenTeam = {
-    team_color: "green",
-    score: game.green_score,
-    adj: game.green_adj,
-    team_id: game.green_team_id,
-    event_team: game.eventTeamByGreenTeamId,
-    scorecards: game.scorecards.filter((item) => {
-      return item.team === "green" ? item : null;
-    }),
-    team_penalties: game.team_penalties.filter((item) => {
-      return item.team_color === "green" ? item : null;
-    }),
-  };
 
   return (
     <Fragment>
@@ -121,14 +153,14 @@ export default function Game() {
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem>
               <EuiPanel>
-                <TeamScorecard team={redTeam} />
+                <TeamScorecard team={game.winner[0]} />
               </EuiPanel>
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem>
               <EuiPanel>
-                <TeamScorecard team={greenTeam} />
+                <TeamScorecard team={game.loser[0]} />
               </EuiPanel>
             </EuiFlexItem>
           </EuiFlexGroup>

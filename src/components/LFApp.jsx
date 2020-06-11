@@ -10,7 +10,7 @@ import GameContainer from "./GameContainer";
 import Footer from "./Footer";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import "@elastic/eui/dist/eui_theme_light.css";
+import "@elastic/eui/dist/eui_theme_amsterdam_light.css";
 
 export default () => (
   <Router>
