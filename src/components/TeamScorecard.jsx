@@ -10,6 +10,7 @@ import {
   EuiAccordion,
   EuiFlexGrid,
 } from "@elastic/eui";
+import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import { StateContext } from "../utils/StateContext";
 
 const TeamScorecard = ({ team }) => {
@@ -28,6 +29,7 @@ const TeamScorecard = ({ team }) => {
       </EuiFlexGroup>
 
       <EuiAccordion
+        id={htmlIdGenerator()()}
         buttonContent={
           <EuiFlexGroup justifyContent="spaceAround">
             <EuiFlexItem>
@@ -47,6 +49,7 @@ const TeamScorecard = ({ team }) => {
               title={team.raw_score}
               description="Raw Score"
               titleSize="xs"
+              reverse
             />
           </EuiFlexItem>
           <EuiFlexItem>
@@ -54,6 +57,7 @@ const TeamScorecard = ({ team }) => {
               title={team.elim_bonus}
               description="Elim Bonus"
               titleSize="xs"
+              reverse
             />
           </EuiFlexItem>
           <EuiFlexItem>
@@ -61,6 +65,7 @@ const TeamScorecard = ({ team }) => {
               title={0}
               description="Individual Penalties"
               titleSize="xs"
+              reverse
             />
           </EuiFlexItem>
           <EuiFlexItem>
