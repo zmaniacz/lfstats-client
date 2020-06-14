@@ -48,6 +48,7 @@ const GET_GAME = gql`
           missiled_opponent
           times_missiled
           medic_hits
+          medic_nukes
           shot_team
           missiled_team
           accuracy
@@ -102,6 +103,7 @@ const GET_GAME = gql`
           missiled_opponent
           times_missiled
           medic_hits
+          medic_nukes
           shot_team
           missiled_team
           accuracy

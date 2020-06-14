@@ -1,12 +1,14 @@
-import React, { useContext, Fragment } from "react";
+import React, { useContext, useState, Fragment } from "react";
 import {
   EuiFlexItem,
   EuiFlexGroup,
   EuiTitle,
   EuiBadge,
-  EuiInMemoryTable,
+  EuiBasicTable,
   EuiStat,
   EuiAccordion,
+  EuiButtonIcon,
+  EuiFlexGrid,
 } from "@elastic/eui";
 import { euiPaletteForStatus } from "@elastic/eui/lib/services";
 import { VictoryPie, VictoryTooltip } from "victory";
@@ -15,9 +17,109 @@ import EuiCustomLink from "./EuiCustomLink";
 import { StateContext } from "../utils/StateContext";
 
 const TeamScorecard = ({ team, gameLength }) => {
+  const [itemIdToExpandedRowMap, setItemIdToExpandedRowMap] = useState({});
+
   const [state] = useContext(StateContext);
+
   const uptimePalette = euiPaletteForStatus(3);
   uptimePalette.push("#ffffff");
+
+  const toggleDetails = (item) => {
+    const itemIdToExpandedRowMapValues = { ...itemIdToExpandedRowMap };
+    if (itemIdToExpandedRowMapValues[item.id]) {
+      delete itemIdToExpandedRowMapValues[item.id];
+    } else {
+      const listItems = [
+        {
+          description: "Lives Left",
+          title: item.lives_left,
+        },
+        {
+          description: "Shots Left",
+          title: item.shots_left,
+        },
+        {
+          description: "Got Missiled",
+          title: item.times_missiled,
+        },
+        {
+          description: "Shot Team",
+          title: item.shot_team,
+        },
+
+        {
+          description: "SP Spent",
+          title: item.sp_spent,
+        },
+        {
+          description: "SP Earned",
+          title: item.sp_earned,
+        },
+
+        {
+          description: "Nuke Cancels",
+          title: item.nukes_canceled,
+        },
+      ];
+
+      if (item.position === "Commander") {
+        listItems.push({
+          description: "Nukes",
+          title: `${item.nukes_activated}/${item.nukes_detonated}`,
+        });
+      }
+
+      if (item.position === "Commander" || item.position === "Heavy Weapons") {
+        listItems.push(
+          {
+            description: "Missiled",
+            title: item.missiled_opponent,
+          },
+          {
+            description: "Missiled Team",
+            title: item.missiled_team,
+          }
+        );
+      }
+
+      if (item.position === "Medic") {
+        listItems.push({
+          description: "Life Boosts",
+          title: item.life_boost,
+        });
+      }
+
+      if (item.position === "Ammo Carrier") {
+        listItems.push({
+          description: "Ammo Boosts",
+          title: item.ammo_boost,
+        });
+      }
+
+      if (item.position === "Ammo Carrier" || item.position === "Medic") {
+        listItems.push({
+          description: "Resupplies",
+          title: item.resupplies,
+        });
+      }
+
+      itemIdToExpandedRowMapValues[item.id] = (
+        <EuiFlexGrid>
+          {listItems.map((item, index) => (
+            <EuiFlexItem key={index} style={{ minWidth: 100 }}>
+              <EuiStat
+                title={item.title}
+                description={item.description}
+                titleSize="xs"
+                reverse
+              />
+            </EuiFlexItem>
+          ))}
+        </EuiFlexGrid>
+      );
+    }
+    setItemIdToExpandedRowMap(itemIdToExpandedRowMapValues);
+  };
 
   const columns = [
     {
@@ -39,7 +141,6 @@ const TeamScorecard = ({ team, gameLength }) => {
       field: "mvp_points",
       name: "MVP",
       dataType: "number",
-      sortable: true,
       render: (name, item) => {
         return Number.parseFloat(name).toFixed(2);
       },
@@ -48,7 +149,6 @@ const TeamScorecard = ({ team, gameLength }) => {
       field: "hit_diff",
       name: "Hit Diff",
       dataType: "number",
-      sortable: true,
       render: (name, item) => {
         return (
           <span>
@@ -56,6 +156,24 @@ const TeamScorecard = ({ team, gameLength }) => {
             {item.times_zapped})
           </span>
         );
+      },
+    },
+    {
+      field: "accuracy",
+      name: "Acc",
+      dataType: "number",
+      render: (name, item) => `${(item.accuracy * 100).toFixed(2)}%`,
+    },
+    {
+      field: "medic_hits",
+      name: "Medic Hits",
+      dataType: "number",
+      render: (name, item) => {
+        if (item.position === "Commander") {
+          return `${item.medic_hits}/${item.medic_nukes}`;
+        } else {
+          return item.medic_hits;
+        }
       },
     },
     {
@@ -68,7 +186,7 @@ const TeamScorecard = ({ team, gameLength }) => {
           { y: item.other_downtime },
         ];
 
-        if (item.lives_left == 0) {
+        if (item.lives_left === 0) {
           chartData.push({
             y:
               gameLength * 1000 -
@@ -87,6 +205,18 @@ const TeamScorecard = ({ team, gameLength }) => {
           />
         );
       },
+    },
+    {
+      align: "right",
+      width: "40px",
+      isExpander: true,
+      render: (item) => (
+        <EuiButtonIcon
+          onClick={() => toggleDetails(item)}
+          aria-label={itemIdToExpandedRowMap[item.id] ? "Collapse" : "Expand"}
+          iconType={itemIdToExpandedRowMap[item.id] ? "arrowUp" : "arrowDown"}
+        />
+      ),
     },
   ];
 
@@ -147,13 +277,12 @@ const TeamScorecard = ({ team, gameLength }) => {
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiAccordion>
-      <EuiInMemoryTable
+      <EuiBasicTable
         columns={columns}
         items={team.scorecards}
-        search={false}
-        compressed={true}
-        pagination={false}
-        sorting={false}
+        itemId="id"
+        itemIdToExpandedRowMap={itemIdToExpandedRowMap}
+        isExpandable={true}
       />
     </Fragment>
   );
