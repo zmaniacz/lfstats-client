@@ -34,7 +34,7 @@ const GET_GAME = gql`
         raw_score
         elim_bonus
         adjustment
-        scorecards {
+        scorecards(order_by: { score: desc }) {
           id
           player_name
           player_id
@@ -59,6 +59,12 @@ const GET_GAME = gql`
           ammo_boost
           life_boost
           resupplies
+          shot_opponent
+          times_zapped
+          other_downtime
+          resupply_downtime
+          survived
+          uptime
           penalties {
             id
             in_game
@@ -82,7 +88,7 @@ const GET_GAME = gql`
         raw_score
         elim_bonus
         adjustment
-        scorecards {
+        scorecards(order_by: { score: desc }) {
           id
           player_name
           player_id
@@ -107,6 +113,12 @@ const GET_GAME = gql`
           ammo_boost
           life_boost
           resupplies
+          shot_opponent
+          times_zapped
+          other_downtime
+          resupply_downtime
+          survived
+          uptime
           penalties {
             id
             in_game
@@ -153,14 +165,20 @@ export default function Game() {
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem>
               <EuiPanel>
-                <TeamScorecard team={game.winner[0]} />
+                <TeamScorecard
+                  team={game.winner[0]}
+                  gameLength={game.game_length}
+                />
               </EuiPanel>
             </EuiFlexItem>
           </EuiFlexGroup>
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem>
               <EuiPanel>
-                <TeamScorecard team={game.loser[0]} />
+                <TeamScorecard
+                  team={game.loser[0]}
+                  gameLength={game.game_length}
+                />
               </EuiPanel>
             </EuiFlexItem>
           </EuiFlexGroup>
