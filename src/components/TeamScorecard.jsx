@@ -9,6 +9,7 @@ import {
   EuiAccordion,
   EuiButtonIcon,
   EuiFlexGrid,
+  EuiHorizontalRule,
 } from "@elastic/eui";
 import { euiPaletteForStatus } from "@elastic/eui/lib/services";
 import { VictoryPie, VictoryTooltip } from "victory";
@@ -46,21 +47,24 @@ const TeamScorecard = ({ team, gameLength }) => {
           description: "Shot Team",
           title: item.shot_team,
         },
-
-        {
-          description: "SP Spent",
-          title: item.sp_spent,
-        },
-        {
-          description: "SP Earned",
-          title: item.sp_earned,
-        },
-
         {
           description: "Nuke Cancels",
           title: item.nukes_canceled,
         },
       ];
+
+      if (item.position !== "Heavy Weapons") {
+        listItems.push(
+          {
+            description: "SP Spent",
+            title: item.sp_spent,
+          },
+          {
+            description: "SP Earned",
+            title: item.sp_earned,
+          }
+        );
+      }
 
       if (item.position === "Commander") {
         listItems.push({
@@ -220,6 +224,29 @@ const TeamScorecard = ({ team, gameLength }) => {
     },
   ];
 
+  const scoreListItems = [
+    {
+      description: "Score",
+      title: team.total_score,
+    },
+    {
+      description: "Raw Score",
+      title: team.raw_score,
+    },
+    {
+      description: "Elim Bonus",
+      title: team.elim_bonus,
+    },
+    {
+      description: "Individual Penalties",
+      title: 0,
+    },
+    {
+      description: "Team Penalties",
+      title: 0,
+    },
+  ];
+
   return (
     <Fragment>
       <EuiFlexGroup justifyContent="spaceAround">
@@ -234,6 +261,7 @@ const TeamScorecard = ({ team, gameLength }) => {
 
       <EuiAccordion
         id={htmlIdGenerator()()}
+        paddingSize="m"
         buttonContent={
           <EuiFlexGroup justifyContent="spaceAround">
             <EuiFlexItem>
@@ -248,33 +276,16 @@ const TeamScorecard = ({ team, gameLength }) => {
         }
       >
         <EuiFlexGroup>
-          <EuiFlexItem>
-            <EuiStat
-              title={team.raw_score}
-              description="Raw Score"
-              titleSize="xs"
-              reverse
-            />
-          </EuiFlexItem>
-          <EuiFlexItem>
-            <EuiStat
-              title={team.elim_bonus}
-              description="Elim Bonus"
-              titleSize="xs"
-              reverse
-            />
-          </EuiFlexItem>
-          <EuiFlexItem>
-            <EuiStat
-              title={0}
-              description="Individual Penalties"
-              titleSize="xs"
-              reverse
-            />
-          </EuiFlexItem>
-          <EuiFlexItem>
-            <EuiStat title={0} description="Team Penalties" titleSize="xs" />
-          </EuiFlexItem>
+          {scoreListItems.map((item, index) => (
+            <EuiFlexItem key={index}>
+              <EuiStat
+                title={item.title}
+                description={item.description}
+                titleSize="xs"
+                reverse
+              />
+            </EuiFlexItem>
+          ))}
         </EuiFlexGroup>
       </EuiAccordion>
       <EuiBasicTable
