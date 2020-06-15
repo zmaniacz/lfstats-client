@@ -9,11 +9,12 @@ import {
   EuiAccordion,
   EuiButtonIcon,
   EuiFlexGrid,
-  EuiHorizontalRule,
+  EuiIconTip,
 } from "@elastic/eui";
 import { euiPaletteForStatus } from "@elastic/eui/lib/services";
 import { VictoryPie, VictoryTooltip } from "victory";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
+import ScorecardMVPButton from "./ScorecardMVPButton";
 import EuiCustomLink from "./EuiCustomLink";
 import { StateContext } from "../utils/StateContext";
 
@@ -146,7 +147,7 @@ const TeamScorecard = ({ team, gameLength }) => {
       name: "MVP",
       dataType: "number",
       render: (name, item) => {
-        return Number.parseFloat(name).toFixed(2);
+        return <ScorecardMVPButton scorecardId={item.id} mvp={name} />;
       },
     },
     {
@@ -181,7 +182,15 @@ const TeamScorecard = ({ team, gameLength }) => {
       },
     },
     {
-      name: "Uptime",
+      name: (
+        <Fragment>
+          Uptime{" "}
+          <EuiIconTip
+            content="Green is uptime, yellow is resupply downtime, red is other downtime, missing pieces indicate elimination"
+            position="top"
+          />
+        </Fragment>
+      ),
       align: "center",
       render: (item) => {
         let chartData = [
@@ -258,7 +267,6 @@ const TeamScorecard = ({ team, gameLength }) => {
           </EuiTitle>
         </EuiFlexItem>
       </EuiFlexGroup>
-
       <EuiAccordion
         id={htmlIdGenerator()()}
         paddingSize="m"
