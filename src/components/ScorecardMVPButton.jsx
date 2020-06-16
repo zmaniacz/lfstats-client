@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import {
@@ -6,19 +6,22 @@ import {
   EuiButtonEmpty,
   EuiLoadingSpinner,
   EuiDescriptionList,
+  EuiDescriptionListTitle,
+  EuiDescriptionListDescription,
+  EuiTextColor,
 } from "@elastic/eui";
 import LoadError from "./LoadError";
 
 const GET_MVP_DETAILS = gql`
-  query GetMVPDetails($id: bigint) {
-    scorecards(where: { id: { _eq: $id } }) {
+  query GetMVPDetails($id: bigint!) {
+    scorecard: scorecards_by_pk(id: $id) {
       id
       mvp_details
     }
   }
 `;
 
-export default function ScorecardMVPButton({ scorecardId, mvp }) {
+export default function ScorecardMVPButton({ scorecardId, children }) {
   const { data, loading, error } = useQuery(GET_MVP_DETAILS, {
     variables: { id: scorecardId * 1 },
   });
@@ -34,7 +37,7 @@ export default function ScorecardMVPButton({ scorecardId, mvp }) {
       iconSide="right"
       onClick={onButtonClick}
     >
-      {Number.parseFloat(mvp).toFixed(2)}
+      {children}
     </EuiButtonEmpty>
   );
 
@@ -42,15 +45,26 @@ export default function ScorecardMVPButton({ scorecardId, mvp }) {
   if (loading) content = <EuiLoadingSpinner size="xl" />;
   else if (error) content = <LoadError />;
   else {
-    const listItems = Object.entries(data.scorecards[0].mvp_details)
-      .filter((item) => item[1].value > 0)
-      .map((item, index) => ({
-        title: item[1].name,
-        description: Number.isInteger(item[1].value)
-          ? item[1].value
-          : item[1].value.toFixed(2),
-      }));
-    content = <EuiDescriptionList listItems={listItems} />;
+    content = (
+      <EuiDescriptionList compressed={true}>
+        {Object.entries(data.scorecard.mvp_details)
+          .filter((item) => item[1].value !== 0)
+          .map((item, index) => (
+            <Fragment key={index}>
+              <EuiDescriptionListTitle>{item[1].name}</EuiDescriptionListTitle>
+              <EuiDescriptionListDescription>
+                <EuiTextColor
+                  color={item[1].value > 0 ? "secondary" : "danger"}
+                >
+                  {Number.isInteger(item[1].value)
+                    ? item[1].value
+                    : item[1].value.toFixed(2)}
+                </EuiTextColor>
+              </EuiDescriptionListDescription>
+            </Fragment>
+          ))}
+      </EuiDescriptionList>
+    );
   }
 
   return (
