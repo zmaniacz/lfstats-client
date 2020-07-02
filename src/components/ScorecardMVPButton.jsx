@@ -10,6 +10,7 @@ import {
   EuiDescriptionListDescription,
   EuiTextColor,
 } from "@elastic/eui";
+import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import LoadError from "./LoadError";
 
 const GET_MVP_DETAILS = gql`
@@ -32,13 +33,7 @@ export default function ScorecardMVPButton({ scorecardId, children }) {
   const closePopover = () => setIsPopoverOpen(false);
 
   const button = (
-    <EuiButtonEmpty
-      iconType="arrowDown"
-      iconSide="right"
-      onClick={onButtonClick}
-    >
-      {children}
-    </EuiButtonEmpty>
+    <EuiButtonEmpty onClick={onButtonClick}>{children}</EuiButtonEmpty>
   );
 
   let content;
@@ -48,17 +43,15 @@ export default function ScorecardMVPButton({ scorecardId, children }) {
     content = (
       <EuiDescriptionList compressed={true}>
         {Object.entries(data.scorecard.mvp_details)
-          .filter((item) => item[1].value !== 0)
-          .map((item, index) => (
-            <Fragment key={index}>
-              <EuiDescriptionListTitle>{item[1].name}</EuiDescriptionListTitle>
+          .filter(([, value]) => value.value !== 0)
+          .map(([, value]) => (
+            <Fragment key={htmlIdGenerator()()}>
+              <EuiDescriptionListTitle>{value.name}</EuiDescriptionListTitle>
               <EuiDescriptionListDescription>
-                <EuiTextColor
-                  color={item[1].value > 0 ? "secondary" : "danger"}
-                >
-                  {Number.isInteger(item[1].value)
-                    ? item[1].value
-                    : item[1].value.toFixed(2)}
+                <EuiTextColor color={value.value > 0 ? "secondary" : "danger"}>
+                  {Number.isInteger(value.value)
+                    ? value.value
+                    : Number.parseFloat(value.value).toFixed(2)}
                 </EuiTextColor>
               </EuiDescriptionListDescription>
             </Fragment>

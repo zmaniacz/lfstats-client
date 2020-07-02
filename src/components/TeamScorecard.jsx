@@ -17,6 +17,7 @@ import { htmlIdGenerator } from "@elastic/eui/lib/services";
 import ScorecardMVPButton from "./ScorecardMVPButton";
 import EuiCustomLink from "./EuiCustomLink";
 import { StateContext } from "../utils/StateContext";
+import ScorecardHitDiffButton from "./ScorecardHitDiffButton";
 
 const TeamScorecard = ({ team, gameLength }) => {
   const [itemIdToExpandedRowMap, setItemIdToExpandedRowMap] = useState({});
@@ -147,7 +148,11 @@ const TeamScorecard = ({ team, gameLength }) => {
       name: "MVP",
       dataType: "number",
       render: (name, item) => {
-        return <ScorecardMVPButton scorecardId={item.id} mvp={name} />;
+        return (
+          <ScorecardMVPButton scorecardId={item.id}>
+            {Number.parseFloat(name).toFixed(2)}
+          </ScorecardMVPButton>
+        );
       },
     },
     {
@@ -156,10 +161,10 @@ const TeamScorecard = ({ team, gameLength }) => {
       dataType: "number",
       render: (name, item) => {
         return (
-          <span>
+          <ScorecardHitDiffButton scorecardId={item.id}>
             {Number.parseFloat(name).toFixed(2)} ({item.shot_opponent}/
             {item.times_zapped})
-          </span>
+          </ScorecardHitDiffButton>
         );
       },
     },
