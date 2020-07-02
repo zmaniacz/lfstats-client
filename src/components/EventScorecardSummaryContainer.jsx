@@ -1,6 +1,5 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import { useQuery, gql } from "@apollo/client";
 import { EuiLoadingSpinner } from "@elastic/eui";
 import LoadError from "./LoadError";
 import ScorecardSummary from "./ScorecardSummary";
@@ -51,13 +50,13 @@ const GET_SUMMARY_STATS = gql`
 
 export default function EventScorecardSummaryContainer({ eventId }) {
   const { data, loading, error } = useQuery(GET_SUMMARY_STATS, {
-    variables: { id: eventId * 1 }
+    variables: { id: eventId * 1 },
   });
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
 
-  const scorecards = data.events[0].scorecards.map(item => {
+  const scorecards = data.events[0].scorecards.map((item) => {
     return {
       player_id: item.player.id,
       player_name: item.player.player_name,
@@ -68,7 +67,7 @@ export default function EventScorecardSummaryContainer({ eventId }) {
       medic_hits: item.player.scorecards_aggregate.aggregate.sum.medic_hits,
       elim_rate:
         Number.parseFloat(item.player.elims.aggregate.count) /
-        Number.parseFloat(item.player.scorecards_aggregate.aggregate.count)
+        Number.parseFloat(item.player.scorecards_aggregate.aggregate.count),
     };
   });
 

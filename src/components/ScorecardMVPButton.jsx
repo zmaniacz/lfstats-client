@@ -1,6 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, gql } from "@apollo/client";
 import {
   EuiPopover,
   EuiButtonEmpty,

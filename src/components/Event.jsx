@@ -15,8 +15,7 @@ import {
   EuiTabbedContent,
   EuiSpacer,
 } from "@elastic/eui";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import { useQuery, gql } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import LoadError from "./LoadError";
 import EventScorecardListContainer from "./EventScorecardListContainer";

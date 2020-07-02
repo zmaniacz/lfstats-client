@@ -1,8 +1,7 @@
 import React, { Fragment } from "react";
 import { EuiLoadingSpinner, EuiBasicTable } from "@elastic/eui";
 import EuiCustomLink from "./EuiCustomLink";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import { useQuery, gql } from "@apollo/client";
 
 const GET_RECENT_EVENTS = gql`
   {
@@ -36,21 +35,21 @@ export default function CompactEventList() {
       name: "Event",
       render: (name, item) => (
         <EuiCustomLink to={`/events/${item.id}`}>{name}</EuiCustomLink>
-      )
+      ),
     },
     {
       field: "center.name",
-      name: "Location"
+      name: "Location",
     },
     {
       field: "games_aggregate.aggregate.max.game_datetime",
       name: "Last Played",
-      dataType: "date"
+      dataType: "date",
     },
     {
       field: "games_aggregate.aggregate.count",
-      name: "Games Played"
-    }
+      name: "Games Played",
+    },
   ];
 
   return (

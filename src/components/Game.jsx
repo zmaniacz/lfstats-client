@@ -12,9 +12,8 @@ import {
   EuiPanel,
 } from "@elastic/eui";
 import LoadError from "./LoadError";
-import { gql } from "apollo-boost";
+import { useQuery, gql } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
 import TeamScorecard from "./TeamScorecard.jsx";
 
 const GET_GAME = gql`

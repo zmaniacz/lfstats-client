@@ -1,6 +1,5 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import { useQuery, gql } from "@apollo/client";
 import { EuiLoadingSpinner } from "@elastic/eui";
 import LoadError from "./LoadError";
 import MedicHitSummary from "./MedicHitSummary";
@@ -50,13 +49,13 @@ const GET_MEDIC_HIT_STATS = gql`
 
 export default function EventMedicHitSummaryContainer({ eventId }) {
   const { data, loading, error } = useQuery(GET_MEDIC_HIT_STATS, {
-    variables: { id: eventId * 1 }
+    variables: { id: eventId * 1 },
   });
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
 
-  const medic_hits = data.events[0].scorecards.map(item => {
+  const medic_hits = data.events[0].scorecards.map((item) => {
     return {
       player_id: item.player.id,
       player_name: item.player.player_name,
@@ -65,7 +64,7 @@ export default function EventMedicHitSummaryContainer({ eventId }) {
       sum_all_games_played: item.player.all.aggregate.count,
       sum_nonresup_medic_hits: item.player.nonresup.aggregate.sum.medic_hits,
       avg_nonresup_medic_hits: item.player.nonresup.aggregate.avg.medic_hits,
-      sum_nonresup_games_played: item.player.nonresup.aggregate.count
+      sum_nonresup_games_played: item.player.nonresup.aggregate.count,
     };
   });
 

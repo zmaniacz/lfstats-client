@@ -1,6 +1,5 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import { useQuery, gql } from "@apollo/client";
 import { EuiLoadingSpinner } from "@elastic/eui";
 import LoadError from "./LoadError";
 import ScorecardList from "./ScorecardList";
