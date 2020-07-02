@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import LFStats from "./LFStats";
+import "./LFStats.scss";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(<LFStats />, document.getElementById("root"));

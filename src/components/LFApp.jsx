@@ -1,6 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { EuiPage, EuiPageBody, EuiSpacer } from "@elastic/eui";
-import LFHeader from "./LFHeader";
 import { Route, Switch } from "react-router-dom";
 import Landing from "./Landing";
 import EventsContainer from "./EventsContainer";
@@ -8,12 +7,12 @@ import PlayersContainer from "./PlayersContainer";
 import CentersContainer from "./CentersContainer";
 import GameContainer from "./GameContainer";
 import Footer from "./Footer";
-import { BrowserRouter as Router } from "react-router-dom";
+import LFHeader from "./LFHeader";
 
 import "@elastic/eui/dist/eui_theme_amsterdam_light.css";
 
 export default () => (
-  <Router>
+  <Fragment>
     <LFHeader />
     <EuiPage restrictWidth={true}>
       <EuiPageBody>
@@ -38,5 +37,5 @@ export default () => (
         <Footer />
       </EuiPageBody>
     </EuiPage>
-  </Router>
+  </Fragment>
 );

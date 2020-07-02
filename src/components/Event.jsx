@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import {
   EuiAccordion,
   EuiPageContent,
@@ -23,6 +23,7 @@ import EventScorecardListContainer from "./EventScorecardListContainer";
 import EventScorecardSummaryContainer from "./EventScorecardSummaryContainer";
 import EventMedicHitSummaryContainer from "./EventMedicHitSummaryContainer";
 import EventGameListContainer from "./EventGameListContainer";
+import { StateContext } from "../utils/StateContext";
 
 const GET_EVENT = gql`
   query GetEvent($id: bigint) {
@@ -47,6 +48,7 @@ const GET_EVENT = gql`
 
 export default function Event() {
   const { eventId } = useParams();
+  const [state, setState] = useContext(StateContext);
 
   const [tabs] = useState([
     {

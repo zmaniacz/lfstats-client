@@ -2,6 +2,7 @@ import React from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { StateProvider } from "./utils/StateContext";
+import { BrowserRouter as Router } from "react-router-dom";
 import LFApp from "./components/LFApp";
 
 const client = new ApolloClient({
@@ -15,7 +16,9 @@ function LFStats() {
   return (
     <ApolloProvider client={client}>
       <StateProvider>
-        <LFApp />
+        <Router>
+          <LFApp />
+        </Router>
       </StateProvider>
     </ApolloProvider>
   );
