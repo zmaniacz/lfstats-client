@@ -7,10 +7,17 @@ import {
   EuiText,
   EuiShowFor,
   EuiListGroupItem,
-  EuiCode,
 } from "@elastic/eui";
+import { useQuery, gql } from "@apollo/client";
+
+const CURRENT_EVENT_ID = gql`
+  query GetCurrentEvent {
+    selectedEventId @client
+  }
+`;
 
 export default () => {
+  const { data } = useQuery(CURRENT_EVENT_ID);
   const [navIsOpen, setNavIsOpen] = useState(
     JSON.parse(String(localStorage.getItem("navIsDocked"))) || false
   );
@@ -36,26 +43,17 @@ export default () => {
     >
       <EuiCollapsibleNavGroup title="Event Stats" iconType="dashboardApp">
         <EuiText size="s" color="subdued">
-          <p>
-            This is a nice group with a heading supplied via{" "}
-            <EuiCode>title</EuiCode> and <EuiCode>iconType</EuiCode>.
-          </p>
+          <p>Event id is {data.selectedEventId}</p>
         </EuiText>
       </EuiCollapsibleNavGroup>
       <EuiCollapsibleNavGroup title="Player Stats" iconType="metricsApp">
         <EuiText size="s" color="subdued">
-          <p>
-            This is a nice group with a heading supplied via{" "}
-            <EuiCode>title</EuiCode> and <EuiCode>iconType</EuiCode>.
-          </p>
+          <p>Player stat links</p>
         </EuiText>
       </EuiCollapsibleNavGroup>
       <EuiCollapsibleNavGroup title="Center Stats" iconType="gisApp">
         <EuiText size="s" color="subdued">
-          <p>
-            This is a nice group with a heading supplied via{" "}
-            <EuiCode>title</EuiCode> and <EuiCode>iconType</EuiCode>.
-          </p>
+          <p>Center stat links</p>
         </EuiText>
       </EuiCollapsibleNavGroup>
 

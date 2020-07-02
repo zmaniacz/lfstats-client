@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from "react";
+import React, { Fragment, useState } from "react";
 import {
   EuiAccordion,
   EuiPageContent,
@@ -15,14 +15,13 @@ import {
   EuiTabbedContent,
   EuiSpacer,
 } from "@elastic/eui";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useApolloClient } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import LoadError from "./LoadError";
 import EventScorecardListContainer from "./EventScorecardListContainer";
 import EventScorecardSummaryContainer from "./EventScorecardSummaryContainer";
 import EventMedicHitSummaryContainer from "./EventMedicHitSummaryContainer";
 import EventGameListContainer from "./EventGameListContainer";
-import { StateContext } from "../utils/StateContext";
 
 const GET_EVENT = gql`
   query GetEvent($id: bigint) {
@@ -46,8 +45,8 @@ const GET_EVENT = gql`
 `;
 
 export default function Event() {
+  const client = useApolloClient();
   const { eventId } = useParams();
-  const [state, setState] = useContext(StateContext);
 
   const [tabs] = useState([
     {
@@ -140,6 +139,17 @@ export default function Event() {
 
   const { data, loading, error } = useQuery(GET_EVENT, {
     variables: { id: eventId * 1 },
+  });
+
+  client.writeQuery({
+    query: gql`
+      query getSelectedEventId {
+        selectedEventId
+      }
+    `,
+    data: {
+      selectedEventId: eventId,
+    },
   });
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
