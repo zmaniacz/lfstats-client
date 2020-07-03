@@ -3,6 +3,7 @@ import { EuiPage, EuiPageBody, EuiSpacer } from "@elastic/eui";
 import { Route, Switch } from "react-router-dom";
 import Landing from "./Landing";
 import EventsContainer from "./EventsContainer";
+import EventsListContainer from "./EventsListContainer";
 import PlayersContainer from "./PlayersContainer";
 import CentersContainer from "./CentersContainer";
 import GameContainer from "./GameContainer";
@@ -22,6 +23,9 @@ export default () => (
           </Route>
           <Route path="/events/:eventId">
             <EventsContainer />
+          </Route>
+          <Route path="/events">
+            <EventsListContainer />
           </Route>
           <Route path="/games">
             <GameContainer />

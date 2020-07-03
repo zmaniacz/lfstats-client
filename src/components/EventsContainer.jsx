@@ -4,10 +4,12 @@ import {
   EuiPageHeaderSection,
   EuiTitle,
   EuiLoadingSpinner,
+  EuiText,
 } from "@elastic/eui";
 import { useQuery, gql, useApolloClient } from "@apollo/client";
 import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import LoadError from "./LoadError";
+import EuiCustomLink from "./EuiCustomLink";
 import EventDaily from "./EventDaily";
 import EventGames from "./EventGames";
 
@@ -70,17 +72,21 @@ export default function EventsContainer() {
           <EuiTitle size="l">
             <h1>{`${data.event.name} @ ${data.event.center.name}`}</h1>
           </EuiTitle>
+          <EuiText>
+            <h4>
+              <EuiCustomLink to="/events">Change</EuiCustomLink>
+            </h4>
+          </EuiText>
         </EuiPageHeaderSection>
       </EuiPageHeader>
       <Switch>
         <Route exact path={`${match.path}/standings`}>
           <EventDaily eventId={eventId} />
         </Route>
-
         <Route exact path={`${match.path}/games`}>
           <EventGames eventId={eventId} />
         </Route>
-        <Route path={`${match.path}`}>
+        <Route path={[`${match.path}/daily`, `${match.path}`]}>
           <EventDaily eventId={eventId} />
         </Route>
       </Switch>

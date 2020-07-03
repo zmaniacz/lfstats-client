@@ -5,8 +5,8 @@ import LoadError from "./LoadError";
 import GameList from "./GameList";
 
 const GET_EVENT_GAMES = gql`
-  query GetEvent($id: bigint) {
-    events(where: { id: { _eq: $id } }) {
+  query GetEvent($id: bigint!) {
+    event: events_by_pk(id: $id) {
       name
       games {
         id
@@ -36,5 +36,5 @@ export default function EventGameListContainer({ eventId }) {
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
 
-  return <GameList data={data.events[0].games} />;
+  return <GameList data={data.event.games} />;
 }
