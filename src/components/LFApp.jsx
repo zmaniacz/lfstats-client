@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { EuiPage, EuiPageBody, EuiSpacer } from "@elastic/eui";
 import { Route, Switch } from "react-router-dom";
 import Landing from "./Landing";
@@ -12,7 +12,7 @@ import LFHeader from "./LFHeader";
 import "@elastic/eui/dist/eui_theme_amsterdam_light.css";
 
 export default () => (
-  <Fragment>
+  <>
     <LFHeader />
     <EuiPage restrictWidth={true}>
       <EuiPageBody>
@@ -20,7 +20,7 @@ export default () => (
           <Route exact path="/">
             <Landing />
           </Route>
-          <Route path="/events">
+          <Route path="/events/:eventId">
             <EventsContainer />
           </Route>
           <Route path="/games">
@@ -37,5 +37,5 @@ export default () => (
         <Footer />
       </EuiPageBody>
     </EuiPage>
-  </Fragment>
+  </>
 );

@@ -26,12 +26,12 @@ const client = new ApolloClient({
 });
 cache.writeQuery({
   query: gql`
-    query GetSelectedEventId {
-      selectedEventId
+    query GetSelectedEvent {
+      selectedEvent
     }
   `,
   data: {
-    selectedEventId: 51,
+    selectedEvent: null,
   },
 });
 
