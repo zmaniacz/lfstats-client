@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import {
   EuiPageContent,
   EuiTitle,
@@ -10,21 +11,24 @@ import {
 } from "@elastic/eui";
 import EventGameListContainer from "./EventGameListContainer";
 
-export default ({ eventId }) => (
-  <EuiPageContent>
-    <EuiPageContentHeader>
-      <EuiPageContentHeaderSection>
-        <EuiTitle>
-          <h2>Games Played</h2>
-        </EuiTitle>
-      </EuiPageContentHeaderSection>
-    </EuiPageContentHeader>
-    <EuiPageContentBody>
-      <EuiFlexGroup justifyContent="center">
-        <EuiFlexItem grow={false}>
-          <EventGameListContainer eventId={eventId} />
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    </EuiPageContentBody>
-  </EuiPageContent>
-);
+export default () => {
+  const { eventId } = useParams();
+  return (
+    <EuiPageContent>
+      <EuiPageContentHeader>
+        <EuiPageContentHeaderSection>
+          <EuiTitle>
+            <h2>Games Played</h2>
+          </EuiTitle>
+        </EuiPageContentHeaderSection>
+      </EuiPageContentHeader>
+      <EuiPageContentBody>
+        <EuiFlexGroup justifyContent="center">
+          <EuiFlexItem grow={false}>
+            <EventGameListContainer eventId={eventId} />
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiPageContentBody>
+    </EuiPageContent>
+  );
+};

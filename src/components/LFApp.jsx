@@ -1,12 +1,15 @@
 import React from "react";
 import { EuiPage, EuiPageBody, EuiSpacer } from "@elastic/eui";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Landing from "./Landing";
-import EventsContainer from "./EventsContainer";
+import EventDetailContainer from "./EventDetailContainer";
 import EventsListContainer from "./EventsListContainer";
-import PlayersContainer from "./PlayersContainer";
-import CentersContainer from "./CentersContainer";
+import EventDaily from "./EventDaily";
+import EventGames from "./EventGames";
+//import PlayersContainer from "./PlayersContainer";
+//import CentersContainer from "./CentersContainer";
 import GameContainer from "./GameContainer";
+import SocialDaily from "./SocialDaily";
 import Footer from "./Footer";
 import LFHeader from "./LFHeader";
 
@@ -17,26 +20,27 @@ export default () => (
     <LFHeader />
     <EuiPage restrictWidth={true}>
       <EuiPageBody>
-        <Switch>
-          <Route exact path="/">
-            <Landing />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="events">
+            <Route path="/" element={<EventsListContainer />} />
+            <Route path=":eventId" element={<EventDetailContainer />}>
+              <Route path="/" element={<EventDaily />} />
+              <Route path="standings" element={<EventDaily />} />
+              <Route path="daily" element={<EventDaily />} />
+              <Route path="games" element={<EventGames />} />
+            </Route>
           </Route>
-          <Route path="/events/:eventId">
-            <EventsContainer />
+          <Route path="games">
+            <Route path="/" element={<Navigate to="../" replace={true} />} />
+            <Route path=":gameId" element={<GameContainer />} />
           </Route>
-          <Route path="/events">
-            <EventsListContainer />
+          <Route path="social">
+            <Route path="/" element={<SocialDaily />} />
           </Route>
-          <Route path="/games">
-            <GameContainer />
-          </Route>
-          <Route path="/players">
-            <PlayersContainer />
-          </Route>
-          <Route path="/centers">
-            <CentersContainer />
-          </Route>
-        </Switch>
+          {/*<Route path="players" element={<PlayersContainer />} />
+<Route path="centers" element={<CentersContainer />} />*/}
+        </Routes>
         <EuiSpacer />
         <Footer />
       </EuiPageBody>

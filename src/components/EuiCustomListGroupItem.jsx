@@ -1,45 +1,43 @@
 import React from "react";
 import { EuiListGroupItem } from "@elastic/eui";
-import { useHistory } from "react-router";
+import { createPath } from "history";
+import {
+  useHref,
+  useNavigate,
+  useLocation,
+  useResolvedPath,
+} from "react-router";
 
-const isModifiedEvent = (event) =>
-  !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
+function isModifiedEvent(event) {
+  return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
+}
 
-const isLeftClickEvent = (event) => event.button === 0;
-
-const isTargetBlank = (event) => {
-  const target = event.target.getAttribute("target");
-  return target && target !== "_self";
-};
-
-export default function EuiCustomListGroupItem({ to, ...rest }) {
-  // This is the key!
-  const history = useHistory();
+//This is lifted from the react-router <Link> component
+export default ({ to, ...rest }) => {
+  let href = useHref(to);
+  let navigate = useNavigate();
+  let location = useLocation();
+  let path = useResolvedPath(to);
 
   function onClick(event) {
-    if (event.defaultPrevented) {
-      return;
-    }
+    const target = event.target.getAttribute("target");
 
-    // Let the browser handle links that open new tabs/windows
     if (
-      isModifiedEvent(event) ||
-      !isLeftClickEvent(event) ||
-      isTargetBlank(event)
+      !event.defaultPrevented && // onClick prevented default
+      event.button === 0 && // Ignore everything but left clicks
+      (!target || target === "_self") && // Let browser handle "target=_blank" etc.
+      !isModifiedEvent(event) // Ignore clicks with modifier keys
     ) {
-      return;
+      event.preventDefault();
+
+      // If the URL hasn't changed, a regular <a> will do a replace instead of
+      // a push, so do the same here.
+      let replace = createPath(location) === createPath(path);
+
+      navigate(to, { replace });
     }
-
-    // Prevent regular link behavior, which causes a browser refresh.
-    event.preventDefault();
-
-    // Push the route to the history.
-    history.push(to);
   }
-
-  // Generate the correct link href (with basename accounted for)
-  const href = history.createHref({ pathname: to });
 
   const props = { ...rest, href, onClick };
   return <EuiListGroupItem {...props} />;
-}
+};

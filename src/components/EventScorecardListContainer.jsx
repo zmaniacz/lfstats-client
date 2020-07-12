@@ -5,8 +5,8 @@ import LoadError from "./LoadError";
 import ScorecardList from "./ScorecardList";
 
 const GET_EVENT_SCORECARDS = gql`
-  query GetEventScorecards($id: bigint) {
-    events(where: { id: { _eq: $id } }) {
+  query GetEventScorecards($id: bigint!) {
+    event: events_by_pk(id: $id) {
       scorecards {
         id
         player_name
@@ -49,7 +49,7 @@ export default function EventScorecardListContainer({ eventId }) {
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
 
-  const scorecards = data.events[0].scorecards.map((item) => {
+  const scorecards = data.event.scorecards.map((item) => {
     return {
       id: item.id,
       player_id: item.player.id,

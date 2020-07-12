@@ -13,32 +13,8 @@ import EuiCustomLink from "./EuiCustomLink";
 import EventDaily from "./EventDaily";
 import EventGames from "./EventGames";
 
-const GET_EVENT = gql`
-  query GetEvent($id: bigint!) {
-    event: events_by_pk(id: $id) {
-      id
-      name
-      description
-      is_comp
-      type
-      scoring
-      games_aggregate {
-        aggregate {
-          max {
-            game_datetime
-          }
-        }
-      }
-      center {
-        name
-      }
-    }
-  }
-`;
-
-export default function EventsContainer() {
+export default () => {
   let match = useRouteMatch();
-  console.log(match);
   const client = useApolloClient();
   const { eventId } = useParams();
   const { data, loading, error } = useQuery(GET_EVENT, {
@@ -92,4 +68,4 @@ export default function EventsContainer() {
       </Switch>
     </>
   );
-}
+};

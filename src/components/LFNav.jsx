@@ -51,17 +51,35 @@ export default () => {
             <EuiListGroup flush={true} gutterSize="none">
               {data.selectedEvent.is_comp && (
                 <EuiCustomListGroupItem
+                  size="xs"
                   label="Standings"
                   to={`/events/${data.selectedEvent.id}/standings`}
                 />
               )}
               <EuiCustomListGroupItem
+                size="xs"
                 label="Daily Stats"
                 to={`/events/${data.selectedEvent.id}/daily`}
               />
               <EuiCustomListGroupItem
+                size="xs"
+                label="Player Rankings"
+                to={`/events/${data.selectedEvent.id}/rankings`}
+              />
+              <EuiCustomListGroupItem
+                size="xs"
+                label="Leaderboards"
+                to={`/events/${data.selectedEvent.id}/leaderboards`}
+              />
+              <EuiCustomListGroupItem
+                size="xs"
                 label="Game List"
                 to={`/events/${data.selectedEvent.id}/games`}
+              />
+              <EuiCustomListGroupItem
+                size="xs"
+                label="Penalties"
+                to={`/events/${data.selectedEvent.id}/leaderboards`}
               />
             </EuiListGroup>
           </>
@@ -71,14 +89,22 @@ export default () => {
           </EuiListGroup>
         )}
       </EuiCollapsibleNavGroup>
+      <EuiCollapsibleNavGroup title="Social Stats" iconType="lensApp">
+        <EuiText size="s" color="subdued">
+          <p>Daily Stats</p>
+          <p>Game List</p>
+          <p>Leaderboards</p>
+        </EuiText>
+      </EuiCollapsibleNavGroup>
       <EuiCollapsibleNavGroup title="Player Stats" iconType="metricsApp">
         <EuiText size="s" color="subdued">
-          <p>Player stat links</p>
+          <p>Top Players</p>
         </EuiText>
       </EuiCollapsibleNavGroup>
       <EuiCollapsibleNavGroup title="Center Stats" iconType="gisApp">
         <EuiText size="s" color="subdued">
-          <p>Center stat links</p>
+          <p>Center Stats</p>
+          <p>All-Center Teams</p>
         </EuiText>
       </EuiCollapsibleNavGroup>
     </EuiCollapsibleNav>
