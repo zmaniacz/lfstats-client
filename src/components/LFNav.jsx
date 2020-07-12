@@ -91,7 +91,13 @@ export default () => {
       </EuiCollapsibleNavGroup>
       <EuiCollapsibleNavGroup title="Social Stats" iconType="lensApp">
         <EuiText size="s" color="subdued">
-          <p>Daily Stats</p>
+          <EuiListGroup flush={true} gutterSize="none">
+            <EuiCustomListGroupItem
+              size="xs"
+              label="Daily Stats"
+              to="/social"
+            />
+          </EuiListGroup>
           <p>Game List</p>
           <p>Leaderboards</p>
         </EuiText>

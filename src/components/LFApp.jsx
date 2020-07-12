@@ -9,6 +9,7 @@ import EventGames from "./EventGames";
 //import PlayersContainer from "./PlayersContainer";
 //import CentersContainer from "./CentersContainer";
 import GameContainer from "./GameContainer";
+import SocialContainer from "./SocialContainer";
 import SocialDaily from "./SocialDaily";
 import Footer from "./Footer";
 import LFHeader from "./LFHeader";
@@ -35,7 +36,7 @@ export default () => (
             <Route path="/" element={<Navigate to="../" replace={true} />} />
             <Route path=":gameId" element={<GameContainer />} />
           </Route>
-          <Route path="social">
+          <Route path="social" element={<SocialContainer />}>
             <Route path="/" element={<SocialDaily />} />
           </Route>
           {/*<Route path="players" element={<PlayersContainer />} />

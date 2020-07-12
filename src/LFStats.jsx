@@ -34,6 +34,16 @@ cache.writeQuery({
     selectedEvent: null,
   },
 });
+cache.writeQuery({
+  query: gql`
+    query GetSelectedCenters {
+      selectedCenters
+    }
+  `,
+  data: {
+    selectedCenters: [],
+  },
+});
 
 function LFStats() {
   return (
