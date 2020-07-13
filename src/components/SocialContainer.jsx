@@ -8,20 +8,18 @@ import {
 import { Outlet } from "react-router-dom";
 import CenterSelectContainer from "./CenterSelectContainer";
 
-export default () => {
-  return (
-    <>
-      <EuiPageHeader>
-        <EuiPageHeaderSection>
-          <EuiTitle size="l">
-            <h1>Social Stats</h1>
-          </EuiTitle>
-        </EuiPageHeaderSection>
-      </EuiPageHeader>
-      <EuiPageContent>
-        <CenterSelectContainer />
-      </EuiPageContent>
+export default () => (
+  <>
+    <EuiPageHeader>
+      <EuiPageHeaderSection>
+        <EuiTitle size="l">
+          <h1>Social Stats</h1>
+        </EuiTitle>
+      </EuiPageHeaderSection>
+    </EuiPageHeader>
+    <EuiPageContent>
+      <CenterSelectContainer />
       <Outlet />
-    </>
-  );
-};
+    </EuiPageContent>
+  </>
+);

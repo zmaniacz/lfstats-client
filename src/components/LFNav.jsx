@@ -95,10 +95,14 @@ export default () => {
             <EuiCustomListGroupItem
               size="xs"
               label="Daily Stats"
-              to="/social"
+              to="/social/daily"
+            />
+            <EuiCustomListGroupItem
+              size="xs"
+              label="Game List"
+              to="/social/games"
             />
           </EuiListGroup>
-          <p>Game List</p>
           <p>Leaderboards</p>
         </EuiText>
       </EuiCollapsibleNavGroup>

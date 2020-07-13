@@ -11,6 +11,7 @@ import EventGames from "./EventGames";
 import GameContainer from "./GameContainer";
 import SocialContainer from "./SocialContainer";
 import SocialDaily from "./SocialDaily";
+import SocialGames from "./SocialGames";
 import Footer from "./Footer";
 import LFHeader from "./LFHeader";
 
@@ -38,6 +39,8 @@ export default () => (
           </Route>
           <Route path="social" element={<SocialContainer />}>
             <Route path="/" element={<SocialDaily />} />
+            <Route path="daily" element={<SocialDaily />} />
+            <Route path="games" element={<SocialGames />} />
           </Route>
           {/*<Route path="players" element={<PlayersContainer />} />
 <Route path="centers" element={<CentersContainer />} />*/}
