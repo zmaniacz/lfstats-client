@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
-import { StateContext } from "../utils/StateContext";
+import React from "react";
 import EuiCustomLink from "./EuiCustomLink";
 import moment from "moment";
 import { EuiInMemoryTable, EuiHealth } from "@elastic/eui";
+import { teamColorsVar } from "../cache";
 
 export default (data) => {
-  const [state] = useContext(StateContext);
-
   const columns = [
     {
       field: "game_name",
@@ -30,7 +28,7 @@ export default (data) => {
       sortable: true,
       render: (winner, item) => {
         return (
-          <EuiHealth color={state.teamColors[winner[0].color_enum]}>
+          <EuiHealth color={teamColorsVar()[winner[0].color_enum]}>
             {winner[0].total_score}
           </EuiHealth>
         );
@@ -42,7 +40,7 @@ export default (data) => {
       sortable: true,
       render: (loser, item) => {
         return (
-          <EuiHealth color={state.teamColors[loser[0].color_enum]}>
+          <EuiHealth color={teamColorsVar()[loser[0].color_enum]}>
             {loser[0].total_score}
           </EuiHealth>
         );

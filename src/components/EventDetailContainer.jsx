@@ -6,8 +6,9 @@ import {
   EuiLoadingSpinner,
   EuiText,
 } from "@elastic/eui";
-import { useQuery, gql, useApolloClient } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 import { Outlet, useParams } from "react-router-dom";
+import { selectedEventVar } from "../cache";
 import LoadError from "./LoadError";
 import EuiCustomLink from "./EuiCustomLink";
 
@@ -26,7 +27,6 @@ const GET_EVENT = gql`
 `;
 
 export default () => {
-  const client = useApolloClient();
   const { eventId } = useParams();
   const { data, loading, error } = useQuery(GET_EVENT, {
     variables: { id: eventId * 1 },
@@ -36,20 +36,11 @@ export default () => {
   if (error) return <LoadError />;
   if (data.event === null) return <LoadError />;
 
-  client.writeQuery({
-    query: gql`
-      query getSelectedEvent {
-        selectedEvent
-      }
-    `,
-    data: {
-      selectedEvent: {
-        id: data.event.id,
-        name: data.event.name,
-        description: data.event.description,
-        is_comp: data.event.is_comp,
-      },
-    },
+  selectedEventVar({
+    id: data.event.id,
+    name: data.event.name,
+    description: data.event.description,
+    is_comp: data.event.is_comp,
   });
 
   return (

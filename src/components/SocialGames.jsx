@@ -13,19 +13,19 @@ import { useQuery, gql } from "@apollo/client";
 import LoadError from "./LoadError";
 import SocialGameListContainer from "./SocialGameListContainer";
 
-const GET_SELECTED_CENTERS = gql`
-  query GetSelectedCenters {
-    selectedCenters @client
+const GET_SELECTED_CENTERS_OPTIONS = gql`
+  query GetCentersOptions {
+    selectedCentersOptions @client
   }
 `;
 
 export default () => {
-  const { data, loading, error } = useQuery(GET_SELECTED_CENTERS);
+  const { data, loading, error } = useQuery(GET_SELECTED_CENTERS_OPTIONS);
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
 
-  let filter = data.selectedCenters.map((item) => item.value.id);
+  let filter = data.selectedCentersOptions.map((item) => item.value.id);
 
   return (
     <EuiPageContent>

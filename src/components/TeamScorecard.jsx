@@ -1,4 +1,4 @@
-import React, { useContext, useState, Fragment } from "react";
+import React, { useState } from "react";
 import {
   EuiFlexItem,
   EuiFlexGroup,
@@ -14,15 +14,13 @@ import {
 import { euiPaletteForStatus } from "@elastic/eui/lib/services";
 import { VictoryPie, VictoryTooltip } from "victory";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
+import { teamColorsVar } from "../cache";
 import ScorecardMVPButton from "./ScorecardMVPButton";
 import EuiCustomLink from "./EuiCustomLink";
-import { StateContext } from "../utils/StateContext";
 import ScorecardHitDiffButton from "./ScorecardHitDiffButton";
 
 const TeamScorecard = ({ team, gameLength }) => {
   const [itemIdToExpandedRowMap, setItemIdToExpandedRowMap] = useState({});
-
-  const [state] = useContext(StateContext);
 
   const uptimePalette = euiPaletteForStatus(3);
   uptimePalette.push("#ffffff");
@@ -188,13 +186,13 @@ const TeamScorecard = ({ team, gameLength }) => {
     },
     {
       name: (
-        <Fragment>
+        <>
           Uptime{" "}
           <EuiIconTip
             content="Green is uptime, yellow is resupply downtime, red is other downtime, missing pieces indicate elimination"
             position="top"
           />
-        </Fragment>
+        </>
       ),
       align: "center",
       render: (item) => {
@@ -262,11 +260,11 @@ const TeamScorecard = ({ team, gameLength }) => {
   ];
 
   return (
-    <Fragment>
+    <>
       <EuiFlexGroup justifyContent="spaceAround">
         <EuiFlexItem grow={true}>
           <EuiTitle size="m">
-            <EuiBadge color={state.teamColors[team.color_enum]}>
+            <EuiBadge color={teamColorsVar()[team.color_enum]}>
               {team.color_desc} Team
             </EuiBadge>
           </EuiTitle>
@@ -308,7 +306,7 @@ const TeamScorecard = ({ team, gameLength }) => {
         itemIdToExpandedRowMap={itemIdToExpandedRowMap}
         isExpandable={true}
       />
-    </Fragment>
+    </>
   );
 };
 

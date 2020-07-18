@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { StateContext } from "../utils/StateContext";
 import { EuiInMemoryTable, EuiHealth } from "@elastic/eui";
 import EuiCustomLink from "./EuiCustomLink";
+import { teamColorsVar } from "../cache";
 
 export default function ScorecardList({ data }) {
-  const [state] = useContext(StateContext);
-
   const columns = [
     {
       field: "player_name",
@@ -26,7 +24,7 @@ export default function ScorecardList({ data }) {
       sortable: true,
       width: "15%",
       render: (name, item) => {
-        let teamColor = state.teamColors[item.team_color_enum];
+        let teamColor = teamColorsVar()[item.team_color_enum];
         return <EuiHealth color={teamColor}>{name}</EuiHealth>;
       },
     },

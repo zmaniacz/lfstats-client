@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import { EuiComboBox } from "@elastic/eui";
-import CenterSelect from "./CenterSelect";
+import { selectedCentersOptionsVar } from "../cache";
 
 const GET_CENTERS = gql`
   query GetCenters {
@@ -9,13 +9,16 @@ const GET_CENTERS = gql`
       id
       name
     }
-    selectedCenters @client
+    selectedCentersOptions @client
   }
 `;
 
-//add a container to pass data in
 export default () => {
   const { data, loading, error } = useQuery(GET_CENTERS);
+
+  const onChange = (selectedOptions) => {
+    selectedCentersOptionsVar(selectedOptions);
+  };
 
   if (loading) return <EuiComboBox placeholder="Loading..." isLoading={true} />;
   if (error) return <EuiComboBox placeholder="Error" isInvalid={true} />;
@@ -29,6 +32,11 @@ export default () => {
   }));
 
   return (
-    <CenterSelect centers={options} selectedCenters={data.selectedCenters} />
+    <EuiComboBox
+      placeholder="Select centers to include"
+      options={options}
+      selectedOptions={data.selectedCentersOptions}
+      onChange={onChange}
+    />
   );
 };
