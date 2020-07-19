@@ -90,21 +90,23 @@ export default () => {
         )}
       </EuiCollapsibleNavGroup>
       <EuiCollapsibleNavGroup title="Social Stats" iconType="lensApp">
-        <EuiText size="s" color="subdued">
-          <EuiListGroup flush={true} gutterSize="none">
-            <EuiCustomListGroupItem
-              size="xs"
-              label="Daily Stats"
-              to="/social/daily"
-            />
-            <EuiCustomListGroupItem
-              size="xs"
-              label="Game List"
-              to="/social/games"
-            />
-          </EuiListGroup>
-          <p>Leaderboards</p>
-        </EuiText>
+        <EuiListGroup flush={true} gutterSize="none">
+          <EuiCustomListGroupItem
+            size="xs"
+            label="Daily Stats"
+            to="/social/daily"
+          />
+          <EuiCustomListGroupItem
+            size="xs"
+            label="Game List"
+            to="/social/games"
+          />
+          <EuiCustomListGroupItem
+            size="xs"
+            label="Leaderboards"
+            to="/social/games"
+          />
+        </EuiListGroup>
       </EuiCollapsibleNavGroup>
       <EuiCollapsibleNavGroup title="Player Stats" iconType="metricsApp">
         <EuiText size="s" color="subdued">

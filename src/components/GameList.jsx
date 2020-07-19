@@ -25,7 +25,7 @@ export default (data) => {
     {
       field: "winner",
       name: "Winner Score",
-      sortable: true,
+      sortable: (item) => item.winner[0].total_score,
       render: (winner, item) => {
         return (
           <EuiHealth color={teamColorsVar()[winner[0].color_enum]}>
@@ -37,7 +37,7 @@ export default (data) => {
     {
       field: "loser",
       name: "Loser Score",
-      sortable: true,
+      sortable: (item) => item.loser[0].total_score,
       render: (loser, item) => {
         return (
           <EuiHealth color={teamColorsVar()[loser[0].color_enum]}>
@@ -45,6 +45,11 @@ export default (data) => {
           </EuiHealth>
         );
       },
+    },
+    {
+      field: "center.name",
+      name: "Location",
+      sortable: true,
     },
   ];
 

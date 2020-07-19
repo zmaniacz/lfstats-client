@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  EuiPageContent,
   EuiTitle,
   EuiPageContentHeader,
   EuiPageContentHeaderSection,
@@ -13,22 +12,22 @@ import { useQuery, gql } from "@apollo/client";
 import LoadError from "./LoadError";
 import SocialGameListContainer from "./SocialGameListContainer";
 
-const GET_SELECTED_CENTERS_OPTIONS = gql`
+const GET_SELECTED_CENTERS_IDS = gql`
   query GetCentersOptions {
-    selectedCentersOptions @client
+    selectedCenters @client
+    selectedSocialStartDate @client
+    selectedSocialEndDate @client
   }
 `;
 
 export default () => {
-  const { data, loading, error } = useQuery(GET_SELECTED_CENTERS_OPTIONS);
+  const { data, loading, error } = useQuery(GET_SELECTED_CENTERS_IDS);
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
 
-  let filter = data.selectedCentersOptions.map((item) => item.value.id);
-
   return (
-    <EuiPageContent>
+    <>
       <EuiPageContentHeader>
         <EuiPageContentHeaderSection>
           <EuiTitle>
@@ -39,10 +38,14 @@ export default () => {
       <EuiPageContentBody>
         <EuiFlexGroup justifyContent="center">
           <EuiFlexItem grow={false}>
-            <SocialGameListContainer filter={filter} />
+            <SocialGameListContainer
+              centerFilter={data.selectedCenters}
+              startDateFilter={data.selectedSocialStartDate}
+              endDateFilter={data.selectedSocialEndDate}
+            />
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiPageContentBody>
-    </EuiPageContent>
+    </>
   );
 };

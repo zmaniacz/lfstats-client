@@ -5,10 +5,22 @@ import LoadError from "./LoadError";
 import GameList from "./GameList";
 
 const GET_SOCIAL_GAMES = gql`
-  query GetSocialGamesByCenter($centers: [bigint!]) {
+  query GetSocialGamesByCenter(
+    $centers: [bigint!]
+    $startDate: timestamptz
+    $endDate: timestamptz
+  ) {
     centers(where: { id: { _in: $centers } }) {
+      id
       name
-      games {
+      games(
+        where: {
+          _and: {
+            game_datetime: { _gte: $startDate, _lte: $endDate }
+            type: { _eq: "social" }
+          }
+        }
+      ) {
         id
         game_name
         game_datetime
@@ -23,15 +35,22 @@ const GET_SOCIAL_GAMES = gql`
           color_enum
           total_score
         }
+        center {
+          id
+          name
+        }
       }
     }
   }
 `;
 
-export default ({ filter }) => {
-  if (filter.length === 0) filter = null;
+export default ({ centerFilter, startDateFilter, endDateFilter }) => {
   const { data, loading, error } = useQuery(GET_SOCIAL_GAMES, {
-    variables: { centers: filter },
+    variables: {
+      centers: centerFilter.length > 0 ? centerFilter : null,
+      startDate: startDateFilter.format("YYYY-MM-DD"),
+      endDate: endDateFilter.format("YYYY-MM-DD"),
+    },
   });
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
