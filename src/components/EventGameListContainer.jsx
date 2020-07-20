@@ -7,6 +7,7 @@ import GameList from "./GameList";
 const GET_EVENT_GAMES = gql`
   query GetEvent($id: bigint!) {
     event: events_by_pk(id: $id) {
+      id
       name
       games {
         id
@@ -22,6 +23,10 @@ const GET_EVENT_GAMES = gql`
           id
           color_enum
           total_score
+        }
+        center {
+          id
+          name
         }
       }
     }

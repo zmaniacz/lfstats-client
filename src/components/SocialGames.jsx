@@ -12,8 +12,8 @@ import { useQuery, gql } from "@apollo/client";
 import LoadError from "./LoadError";
 import SocialGameListContainer from "./SocialGameListContainer";
 
-const GET_SELECTED_CENTERS_IDS = gql`
-  query GetCentersOptions {
+const GET_SOCIAL_FILTERS = gql`
+  query GetSocialFilters {
     selectedCenters @client
     selectedSocialStartDate @client
     selectedSocialEndDate @client
@@ -21,7 +21,7 @@ const GET_SELECTED_CENTERS_IDS = gql`
 `;
 
 export default () => {
-  const { data, loading, error } = useQuery(GET_SELECTED_CENTERS_IDS);
+  const { data, loading, error } = useQuery(GET_SOCIAL_FILTERS);
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
