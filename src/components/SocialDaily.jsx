@@ -13,6 +13,7 @@ import { useQuery, gql } from "@apollo/client";
 import LoadError from "./LoadError";
 import SocialScorecardListContainer from "./SocialScorecardListContainer";
 import SocialScorecardSummaryContainer from "./SocialScorecardSummaryContainer";
+import SocialMedicHitSummaryContainer from "./SocialMedicHitSummaryContainer";
 
 const GET_SOCIAL_FILTERS = gql`
   query GetSocialFilters {
@@ -85,7 +86,11 @@ export default () => {
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem grow={false}>
               <EuiSpacer />
-              <p>EventMedicHitSummaryContainer</p>
+              <SocialMedicHitSummaryContainer
+                centerFilter={data.selectedCenters}
+                startDateFilter={data.selectedSocialStartDate}
+                endDateFilter={data.selectedSocialEndDate}
+              />
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiAccordion>
