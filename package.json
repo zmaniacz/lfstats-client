@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.0.2",
+    "@auth0/auth0-react": "^1.0.0",
     "@elastic/datemath": "^5.0.3",
     "@elastic/eui": "^27.2.0",
     "graphql": "^15.3.0",

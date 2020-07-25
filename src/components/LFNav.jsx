@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  EuiButton,
   EuiCollapsibleNav,
   EuiCollapsibleNavGroup,
   EuiHeaderSectionItemButton,
@@ -8,6 +9,7 @@ import {
   EuiListGroup,
 } from "@elastic/eui";
 import { useQuery, gql } from "@apollo/client";
+import { useAuth0 } from "@auth0/auth0-react";
 import EuiCustomListGroupItem from "./EuiCustomListGroupItem";
 
 const CURRENT_EVENT_ID = gql`
@@ -17,6 +19,7 @@ const CURRENT_EVENT_ID = gql`
 `;
 
 export default () => {
+  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
   const { data } = useQuery(CURRENT_EVENT_ID);
   const [navIsOpen, setNavIsOpen] = useState(
     JSON.parse(String(localStorage.getItem("navIsOpen"))) || false
@@ -118,6 +121,17 @@ export default () => {
           <p>Center Stats</p>
           <p>All-Center Teams</p>
         </EuiText>
+      </EuiCollapsibleNavGroup>
+      <EuiCollapsibleNavGroup>
+        {!isAuthenticated && (
+          <EuiButton onClick={() => loginWithRedirect()}>Login</EuiButton>
+        )}
+        {isAuthenticated && (
+          <>
+            <EuiText>Logged in as {user.name}</EuiText>
+            <EuiButton onClick={() => logout()}>Logout</EuiButton>
+          </>
+        )}
       </EuiCollapsibleNavGroup>
     </EuiCollapsibleNav>
   );
