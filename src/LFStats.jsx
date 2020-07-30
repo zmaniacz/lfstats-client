@@ -9,25 +9,22 @@ const client = new ApolloClient({
   cache,
   link: new HttpLink({
     uri: process.env.REACT_APP_API_URI,
-    headers: {
-      "x-hasura-admin-secret": process.env.REACT_APP_API_KEY,
-    },
   }),
 });
 
 function LFStats() {
   return (
-    <Auth0Provider
-      domain="lfstats.us.auth0.com"
-      clientId="vPGz5gb3cFP3v8lyISABjRp0AEEA9h6y"
-      redirectUri={window.location.origin}
-    >
-      <ApolloProvider client={client}>
-        <Router>
+    <Router>
+      <Auth0Provider
+        domain="lfstats.us.auth0.com"
+        clientId="vPGz5gb3cFP3v8lyISABjRp0AEEA9h6y"
+        redirectUri={window.location.origin}
+      >
+        <ApolloProvider client={client}>
           <LFApp />
-        </Router>
-      </ApolloProvider>
-    </Auth0Provider>
+        </ApolloProvider>
+      </Auth0Provider>
+    </Router>
   );
 }
 
