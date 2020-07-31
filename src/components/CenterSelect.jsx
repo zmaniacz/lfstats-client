@@ -5,15 +5,15 @@ import { selectedCentersVar } from "../cache";
 
 const GET_CENTERS = gql`
   query GetCenters {
+    selectedCenters @client
     centers(order_by: { name: asc }) {
       id
       name
     }
-    selectedCenters @client
   }
 `;
 
-export default () => {
+export default function CenterSelect() {
   const { data, loading, error } = useQuery(GET_CENTERS);
 
   const onChange = (selectedOptions) => {
@@ -32,7 +32,8 @@ export default () => {
   }));
 
   let selectedOptions = options.filter(
-    (item) => data.selectedCenters.indexOf(item.value.id) >= 0
+    (item) =>
+      data.selectedCenters && data.selectedCenters.indexOf(item.value.id) >= 0
   );
 
   return (
@@ -43,4 +44,4 @@ export default () => {
       onChange={onChange}
     />
   );
-};
+}

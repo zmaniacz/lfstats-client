@@ -6,26 +6,10 @@ import {
   EuiPageContentBody,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiLoadingSpinner,
 } from "@elastic/eui";
-import { useQuery, gql } from "@apollo/client";
-import LoadError from "./LoadError";
 import SocialGameListContainer from "./SocialGameListContainer";
 
-const GET_SOCIAL_FILTERS = gql`
-  query GetSocialFilters {
-    selectedCenters @client
-    selectedSocialStartDate @client
-    selectedSocialEndDate @client
-  }
-`;
-
 export default () => {
-  const { data, loading, error } = useQuery(GET_SOCIAL_FILTERS);
-
-  if (loading) return <EuiLoadingSpinner size="xl" />;
-  if (error) return <LoadError />;
-
   return (
     <>
       <EuiPageContentHeader>
@@ -38,11 +22,7 @@ export default () => {
       <EuiPageContentBody>
         <EuiFlexGroup justifyContent="center">
           <EuiFlexItem grow={false}>
-            <SocialGameListContainer
-              centerFilter={data.selectedCenters}
-              startDateFilter={data.selectedSocialStartDate}
-              endDateFilter={data.selectedSocialEndDate}
-            />
+            <SocialGameListContainer />
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiPageContentBody>

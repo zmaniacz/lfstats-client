@@ -1,26 +1,24 @@
 import React from "react";
-import moment from "moment";
 import { EuiDatePicker } from "@elastic/eui";
 import { useQuery, gql } from "@apollo/client";
-import { selectedSocialStartDateVar } from "../cache";
 import SocialDatePicker from "./SocialDatePicker";
 
 const GET_CENTERS_GAME_DATES = gql`
-  query GetCentersGameDates($centerFilter: [bigint!]) {
-    centers(where: { id: { _in: $centerFilter } }) {
+  query GetCentersGameDates($centers: [bigint!]) {
+    selectedCenters @client @export(as: "centers")
+    selectedSocialStartDate @client
+    centers(where: { id: { _in: $centers } }) {
       id
       name
-      social_game_dates {
+      social_game_dates(order_by: { game_date: asc }) {
         game_date
       }
     }
   }
 `;
 
-export default ({ centerFilter, startDate }) => {
-  const { data, loading, error } = useQuery(GET_CENTERS_GAME_DATES, {
-    variables: { centerFilter: centerFilter.length > 0 ? centerFilter : null },
-  });
+export default function SocialDatePickerContainer() {
+  const { data, loading, error } = useQuery(GET_CENTERS_GAME_DATES);
 
   if (loading) return <EuiDatePicker isLoading={true} />;
   if (error) return <EuiDatePicker placeholder="Error" isInvalid={true} />;
@@ -30,19 +28,15 @@ export default ({ centerFilter, startDate }) => {
       return games.concat(item.social_game_dates);
     }, [])
     .map((item) => {
-      return moment(item.game_date);
-    })
-    .sort((a, b) => a - b);
+      return item.game_date;
+    });
 
-  if (startDate === null) {
+  let startDate = data.selectedSocialStartDate;
+  if (availableDates.indexOf(startDate) < 0) {
     startDate = availableDates[availableDates.length - 1];
-    selectedSocialStartDateVar(startDate);
   }
 
   return (
-    <SocialDatePicker
-      availableDates={availableDates}
-      startDate={selectedSocialStartDateVar()}
-    />
+    <SocialDatePicker availableDates={availableDates} startDate={startDate} />
   );
-};
+}

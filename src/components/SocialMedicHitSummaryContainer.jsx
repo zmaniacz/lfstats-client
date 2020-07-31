@@ -10,6 +10,9 @@ const GET_SOCIAL_MEDIC_HIT_STATS = gql`
     $startDate: timestamptz
     $endDate: timestamptz
   ) {
+    selectedCenters @client @export(as: "centers")
+    selectedSocialStartDate @client @export(as: "startDate")
+    selectedSocialEndDate @client @export(as: "endDate")
     players(
       where: {
         scorecards: {
@@ -25,31 +28,6 @@ const GET_SOCIAL_MEDIC_HIT_STATS = gql`
     ) {
       id
       active_player_name
-      nonresup: scorecards_aggregate(
-        where: {
-          _and: [
-            { position: { _neq: "Ammo Carrier" } }
-            { position: { _neq: "Medic" } }
-          ]
-          game: {
-            _and: {
-              center_id: { _in: $centers }
-              game_datetime: { _lte: $endDate, _gte: $startDate }
-              type: { _eq: "social" }
-            }
-          }
-        }
-      ) {
-        aggregate {
-          avg {
-            medic_hits
-          }
-          sum {
-            medic_hits
-          }
-          count
-        }
-      }
       all: scorecards_aggregate(
         where: {
           game: {
@@ -71,18 +49,34 @@ const GET_SOCIAL_MEDIC_HIT_STATS = gql`
           count
         }
       }
+      nonresup: scorecards_aggregate(
+        where: {
+          game: {
+            _and: {
+              center_id: { _in: $centers }
+              game_datetime: { _lte: $endDate, _gte: $startDate }
+              type: { _eq: "social" }
+            }
+          }
+          position: { _nin: ["Ammo Carrier", "Medic"] }
+        }
+      ) {
+        aggregate {
+          avg {
+            medic_hits
+          }
+          sum {
+            medic_hits
+          }
+          count
+        }
+      }
     }
   }
 `;
 
-export default ({ centerFilter, startDateFilter, endDateFilter }) => {
-  const { data, loading, error } = useQuery(GET_SOCIAL_MEDIC_HIT_STATS, {
-    variables: {
-      centers: centerFilter.length > 0 ? centerFilter : null,
-      startDate: startDateFilter.format("YYYY-MM-DD"),
-      endDate: endDateFilter.format("YYYY-MM-DD"),
-    },
-  });
+export default () => {
+  const { data, loading, error } = useQuery(GET_SOCIAL_MEDIC_HIT_STATS);
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;

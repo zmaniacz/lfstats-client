@@ -15,19 +15,19 @@ import SocialScorecardListContainer from "./SocialScorecardListContainer";
 import SocialScorecardSummaryContainer from "./SocialScorecardSummaryContainer";
 import SocialMedicHitSummaryContainer from "./SocialMedicHitSummaryContainer";
 
-const GET_SOCIAL_FILTERS = gql`
-  query GetSocialFilters {
-    selectedCenters @client
+const GET_SOCIAL_START_DATE = gql`
+  query GetSocialStartDate {
     selectedSocialStartDate @client
-    selectedSocialEndDate @client
   }
 `;
 
-export default () => {
-  const { data, loading, error } = useQuery(GET_SOCIAL_FILTERS);
+export default function SocialDaily() {
+  const { data, loading, error } = useQuery(GET_SOCIAL_START_DATE);
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
+  if (data && data.selectedSocialStartDate === 0)
+    return <EuiLoadingSpinner size="xl" />;
 
   return (
     <>
@@ -44,11 +44,7 @@ export default () => {
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem grow={false}>
               <EuiSpacer />
-              <SocialScorecardListContainer
-                centerFilter={data.selectedCenters}
-                startDateFilter={data.selectedSocialStartDate}
-                endDateFilter={data.selectedSocialEndDate}
-              />
+              <SocialScorecardListContainer />
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiAccordion>
@@ -65,11 +61,7 @@ export default () => {
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem grow={false}>
               <EuiSpacer />
-              <SocialScorecardSummaryContainer
-                centerFilter={data.selectedCenters}
-                startDateFilter={data.selectedSocialStartDate}
-                endDateFilter={data.selectedSocialEndDate}
-              />
+              <SocialScorecardSummaryContainer />
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiAccordion>
@@ -86,15 +78,11 @@ export default () => {
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem grow={false}>
               <EuiSpacer />
-              <SocialMedicHitSummaryContainer
-                centerFilter={data.selectedCenters}
-                startDateFilter={data.selectedSocialStartDate}
-                endDateFilter={data.selectedSocialEndDate}
-              />
+              <SocialMedicHitSummaryContainer />
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiAccordion>
       </EuiPageContentBody>
     </>
   );
-};
+}

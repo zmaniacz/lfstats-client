@@ -107,7 +107,7 @@ export default () => {
           <EuiCustomListGroupItem
             size="xs"
             label="Leaderboards"
-            to="/social/games"
+            to="/social/leader"
           />
         </EuiListGroup>
       </EuiCollapsibleNavGroup>

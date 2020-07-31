@@ -1,11 +1,9 @@
 import { makeVar, InMemoryCache } from "@apollo/client";
 import moment from "moment";
 
-//default to Brisbane
 export const selectedCentersVar = makeVar([5]);
 export const selectedEventVar = makeVar(null);
-export const selectedSocialStartDateVar = makeVar(moment());
-export const selectedSocialEndDateVar = makeVar(moment().add(1, "d"));
+export const selectedSocialStartDateVar = makeVar(0);
 
 /*
 Team Color Enum
@@ -13,7 +11,7 @@ Team Color Enum
 1,Red
 2,Green
 11,Fire
-12,Ice
+12,Ice 
 13,Earth
 */
 export const teamColorsVar = makeVar({
@@ -31,7 +29,9 @@ export const cache = new InMemoryCache({
       fields: {
         selectedCenters: {
           read() {
-            return selectedCentersVar();
+            return selectedCentersVar().length > 0
+              ? selectedCentersVar()
+              : null;
           },
         },
         selectedEvent: {
@@ -46,7 +46,9 @@ export const cache = new InMemoryCache({
         },
         selectedSocialEndDate: {
           read() {
-            return selectedSocialEndDateVar();
+            return moment(selectedSocialStartDateVar())
+              .add(1, "d")
+              .format("YYYY-MM-DD");
           },
         },
         teamColors: {

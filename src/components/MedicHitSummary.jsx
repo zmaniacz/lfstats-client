@@ -12,13 +12,13 @@ export default function MedicHitSummary({ data }) {
       sortable: true,
       render: (name, item) => (
         <EuiCustomLink to={`/players/${item.player_id}`}>{name}</EuiCustomLink>
-      )
+      ),
     },
     {
       field: "sum_all_medic_hits",
       name: "Medic Hits (All)",
       dataType: "number",
-      sortable: true
+      sortable: true,
     },
     {
       field: "avg_all_medic_hits",
@@ -27,19 +27,19 @@ export default function MedicHitSummary({ data }) {
       sortable: true,
       render: (name, item) => {
         return <span>{Number.parseFloat(name).toFixed(2)}</span>;
-      }
+      },
     },
     {
       field: "sum_all_games_played",
       name: "Games Played (All)",
       dataType: "number",
-      sortable: true
+      sortable: true,
     },
     {
       field: "sum_nonresup_medic_hits",
       name: "Medic Hits (Non-Resup)",
       dataType: "number",
-      sortable: true
+      sortable: true,
     },
     {
       field: "avg_nonresup_medic_hits",
@@ -48,28 +48,28 @@ export default function MedicHitSummary({ data }) {
       sortable: true,
       render: (name, item) => {
         return <span>{Number.parseFloat(name).toFixed(2)}</span>;
-      }
+      },
     },
     {
       field: "sum_nonresup_games_played",
       name: "Games Played (Non-Resup)",
       dataType: "number",
-      sortable: true
-    }
+      sortable: true,
+    },
   ];
 
   const sorting = {
     sort: {
       field: "sum_all_medic_hits",
-      direction: "desc"
+      direction: "desc",
     },
-    allowNeutralSort: false
+    allowNeutralSort: false,
   };
 
   const search = {
     box: {
-      incremental: true
-    }
+      incremental: true,
+    },
   };
 
   return (
@@ -94,7 +94,7 @@ MedicHitSummary.propTypes = {
       sum_all_games_played: PropTypes.number,
       sum_nonresup_medic_hits: PropTypes.number,
       avg_nonresup_medic_hits: PropTypes.number,
-      sum_nonresup_games_played: PropTypes.number
+      sum_nonresup_games_played: PropTypes.number,
     })
-  )
+  ),
 };

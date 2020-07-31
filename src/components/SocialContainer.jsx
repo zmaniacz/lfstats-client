@@ -8,27 +8,12 @@ import {
   EuiFormRow,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiLoadingSpinner,
 } from "@elastic/eui";
 import { Outlet } from "react-router-dom";
-import { useQuery, gql } from "@apollo/client";
-import LoadError from "./LoadError";
 import CenterSelect from "./CenterSelect";
 import SocialDatePickerContainer from "./SocialDatePickerContainer";
 
-const GET_SELECTED_CENTERS_IDS = gql`
-  query GetCentersOptions {
-    selectedCenters @client
-    selectedSocialStartDate @client
-  }
-`;
-
-export default () => {
-  const { data, loading, error } = useQuery(GET_SELECTED_CENTERS_IDS);
-
-  if (loading) return <EuiLoadingSpinner size="xl" />;
-  if (error) return <LoadError />;
-
+export default function SocialContainer() {
   return (
     <>
       <EuiPageHeader>
@@ -47,10 +32,7 @@ export default () => {
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiFormRow label="Filter by Date">
-              <SocialDatePickerContainer
-                centerFilter={data.selectedCenters}
-                startDate={data.selectedSocialStartDate}
-              />
+              <SocialDatePickerContainer />
             </EuiFormRow>
           </EuiFlexItem>
         </EuiFlexGroup>
@@ -59,4 +41,4 @@ export default () => {
       </EuiPageContent>
     </>
   );
-};
+}

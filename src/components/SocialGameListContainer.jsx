@@ -6,11 +6,14 @@ import GameList from "./GameList";
 
 const GET_SOCIAL_GAMES = gql`
   query GetSocialGamesByCenter(
-    $centers: [bigint!]
+    $centersFilter: [bigint!]
     $startDate: timestamptz
     $endDate: timestamptz
   ) {
-    centers(where: { id: { _in: $centers } }) {
+    selectedCenters @client @export(as: "centersFilter")
+    selectedSocialStartDate @client @export(as: "startDate")
+    selectedSocialEndDate @client @export(as: "endDate")
+    centers(where: { id: { _in: $centersFilter } }) {
       id
       name
       games(
@@ -44,14 +47,8 @@ const GET_SOCIAL_GAMES = gql`
   }
 `;
 
-export default ({ centerFilter, startDateFilter, endDateFilter }) => {
-  const { data, loading, error } = useQuery(GET_SOCIAL_GAMES, {
-    variables: {
-      centers: centerFilter.length > 0 ? centerFilter : null,
-      startDate: startDateFilter.format("YYYY-MM-DD"),
-      endDate: endDateFilter.format("YYYY-MM-DD"),
-    },
-  });
+export default () => {
+  const { data, loading, error } = useQuery(GET_SOCIAL_GAMES);
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;

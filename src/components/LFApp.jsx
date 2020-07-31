@@ -12,6 +12,7 @@ import GameContainer from "./GameContainer";
 import SocialContainer from "./SocialContainer";
 import SocialDaily from "./SocialDaily";
 import SocialGames from "./SocialGames";
+import SocialLeaderBoardsLayout from "./SocialLeaderboardsLayout";
 import Footer from "./Footer";
 import LFHeader from "./LFHeader";
 
@@ -41,6 +42,7 @@ export default () => (
             <Route path="/" element={<SocialDaily />} />
             <Route path="daily" element={<SocialDaily />} />
             <Route path="games" element={<SocialGames />} />
+            <Route path="leader" element={<SocialLeaderBoardsLayout />} />
           </Route>
           {/*<Route path="players" element={<PlayersContainer />} />
 <Route path="centers" element={<CentersContainer />} />*/}
