@@ -1,6 +1,7 @@
 import React from "react";
 import { EuiDatePicker } from "@elastic/eui";
 import { useQuery, gql } from "@apollo/client";
+import { selectedSocialStartDateVar } from "../cache";
 import SocialDatePicker from "./SocialDatePicker";
 
 const GET_CENTERS_GAME_DATES = gql`
@@ -34,6 +35,7 @@ export default function SocialDatePickerContainer() {
   let startDate = data.selectedSocialStartDate;
   if (availableDates.indexOf(startDate) < 0) {
     startDate = availableDates[availableDates.length - 1];
+    selectedSocialStartDateVar(startDate);
   }
 
   return (

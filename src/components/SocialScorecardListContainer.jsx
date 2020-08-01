@@ -10,9 +10,6 @@ const GET_SOCIAL_SCORECARDS = gql`
     $startDate: timestamptz
     $endDate: timestamptz
   ) {
-    selectedCenters @client @export(as: "centers")
-    selectedSocialStartDate @client @export(as: "startDate")
-    selectedSocialEndDate @client @export(as: "endDate")
     centers(where: { id: { _in: $centers } }) {
       id
       name
@@ -60,8 +57,14 @@ const GET_SOCIAL_SCORECARDS = gql`
   }
 `;
 
-export default () => {
-  const { data, loading, error } = useQuery(GET_SOCIAL_SCORECARDS);
+export default ({ centerFilter, startDateFilter, endDateFilter }) => {
+  const { data, loading, error } = useQuery(GET_SOCIAL_SCORECARDS, {
+    variables: {
+      centers: centerFilter,
+      startDate: startDateFilter,
+      endDate: endDateFilter,
+    },
+  });
 
   if (loading) return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
