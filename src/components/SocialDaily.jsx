@@ -18,15 +18,15 @@ import SocialMedicHitSummaryContainer from "./SocialMedicHitSummaryContainer";
 const GET_SOCIAL_START_DATE = gql`
   query GetSocialStartDate {
     selectedCenters @client
-    selectedSocialStartDate @client
-    selectedSocialEndDate @client
+    selectedSocialDailyStartDate @client
+    selectedSocialDailyEndDate @client
   }
 `;
 
 export default function SocialDaily() {
   const { data, loading, error } = useQuery(GET_SOCIAL_START_DATE);
 
-  if (loading || !data.selectedSocialStartDate)
+  if (loading || !data.selectedSocialDailyStartDate)
     return <EuiLoadingSpinner size="xl" />;
   if (error) return <LoadError />;
 
@@ -47,8 +47,8 @@ export default function SocialDaily() {
               <EuiSpacer />
               <SocialScorecardListContainer
                 centerFilter={data.selectedCetners}
-                startDateFilter={data.selectedSocialStartDate}
-                endDateFilter={data.selectedSocialEndDate}
+                startDateFilter={data.selectedSocialDailyStartDate}
+                endDateFilter={data.selectedSocialDailyEndDate}
               />
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -68,8 +68,8 @@ export default function SocialDaily() {
               <EuiSpacer />
               <SocialScorecardSummaryContainer
                 centerFilter={data.selectedCetners}
-                startDateFilter={data.selectedSocialStartDate}
-                endDateFilter={data.selectedSocialEndDate}
+                startDateFilter={data.selectedSocialDailyStartDate}
+                endDateFilter={data.selectedSocialDailyEndDate}
               />
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -89,8 +89,8 @@ export default function SocialDaily() {
               <EuiSpacer />
               <SocialMedicHitSummaryContainer
                 centerFilter={data.selectedCetners}
-                startDateFilter={data.selectedSocialStartDate}
-                endDateFilter={data.selectedSocialEndDate}
+                startDateFilter={data.selectedSocialDailyStartDate}
+                endDateFilter={data.selectedSocialDailyEndDate}
               />
             </EuiFlexItem>
           </EuiFlexGroup>

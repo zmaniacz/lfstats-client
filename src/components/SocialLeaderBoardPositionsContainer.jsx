@@ -11,8 +11,8 @@ const GET_SOCIAL_LEADERBOARDS = gql`
     $endDate: timestamptz
   ) {
     selectedCenters @client @export(as: "centers")
-    selectedSocialStartDate @client @export(as: "startDate")
-    selectedSocialEndDate @client @export(as: "endDate")
+    selectedSocialDailyStartDate @client @export(as: "startDate")
+    selectedSocialDailyEndDate @client @export(as: "endDate")
     players {
       id
       active_player_name

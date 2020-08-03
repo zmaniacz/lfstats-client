@@ -1,11 +1,11 @@
 import React from "react";
 import moment from "moment";
 import { EuiDatePicker } from "@elastic/eui";
-import { selectedSocialStartDateVar } from "../cache";
+import { selectedSocialDailyStartDateVar } from "../cache";
 
 export default function SocialDatePicker({ availableDates, startDate }) {
   const handleChange = (date) => {
-    selectedSocialStartDateVar(date.format("YYYY-MM-DD"));
+    selectedSocialDailyStartDateVar(date.format("YYYY-MM-DD"));
   };
 
   const isValidDate = (date) => {

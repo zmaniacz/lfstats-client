@@ -13,7 +13,7 @@ const GET_CENTERS = gql`
   }
 `;
 
-export default function CenterSelect() {
+export default function CenterMultiSelect() {
   const { data, loading, error } = useQuery(GET_CENTERS);
 
   const onChange = (selectedOptions) => {

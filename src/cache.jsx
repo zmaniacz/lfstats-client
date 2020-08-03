@@ -3,7 +3,7 @@ import moment from "moment";
 
 export const selectedCentersVar = makeVar([5]);
 export const selectedEventVar = makeVar(null);
-export const selectedSocialStartDateVar = makeVar(null);
+export const selectedSocialDailyStartDateVar = makeVar(null);
 
 /*
 Team Color Enum
@@ -39,15 +39,15 @@ export const cache = new InMemoryCache({
             return selectedEventVar();
           },
         },
-        selectedSocialStartDate: {
+        selectedSocialDailyStartDate: {
           read() {
-            return selectedSocialStartDateVar();
+            return selectedSocialDailyStartDateVar();
           },
         },
-        selectedSocialEndDate: {
+        selectedSocialDailyEndDate: {
           read() {
-            if (selectedSocialStartDateVar())
-              return moment(selectedSocialStartDateVar())
+            if (selectedSocialDailyStartDateVar())
+              return moment(selectedSocialDailyStartDateVar())
                 .add(1, "d")
                 .format("YYYY-MM-DD");
             else return null;

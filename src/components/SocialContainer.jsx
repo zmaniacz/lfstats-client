@@ -10,7 +10,7 @@ import {
   EuiFlexItem,
 } from "@elastic/eui";
 import { Outlet } from "react-router-dom";
-import CenterSelect from "./CenterSelect";
+import CenterMultiSelect from "./CenterMultiSelect";
 import SocialDatePickerContainer from "./SocialDatePickerContainer";
 
 export default function SocialContainer() {
@@ -27,7 +27,7 @@ export default function SocialContainer() {
         <EuiFlexGroup>
           <EuiFlexItem>
             <EuiFormRow label="Filter by Center">
-              <CenterSelect />
+              <CenterMultiSelect />
             </EuiFormRow>
           </EuiFlexItem>
           <EuiFlexItem>
