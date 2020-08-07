@@ -38,8 +38,7 @@ export default () => (
             <Route path="/" element={<Navigate to="../" replace={true} />} />
             <Route path=":gameId" element={<GameContainer />} />
           </Route>
-          <Route path="social" element={<SocialContainer />}>
-            <Route path="/" element={<SocialDaily />} />
+          <Route path="social/*" element={<SocialContainer />}>
             <Route path="daily" element={<SocialDaily />} />
             <Route path="games" element={<SocialGames />} />
             <Route path="leader" element={<SocialLeaderBoardsLayout />} />

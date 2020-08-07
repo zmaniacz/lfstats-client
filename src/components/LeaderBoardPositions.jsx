@@ -11,7 +11,9 @@ export default ({ data }) => {
       sortable: false,
       truncateText: true,
       render: (name, item) => (
-        <EuiCustomLink to={`/players/${item.player_id}`}>{name}</EuiCustomLink>
+        <EuiCustomLink to={`/players/${item.player.id}`}>
+          {item.player.active_player_name}
+        </EuiCustomLink>
       ),
     },
     { field: "score", name: "Score", dataType: "number", sortable: true },
@@ -41,30 +43,50 @@ export default ({ data }) => {
 
   return (
     <EuiFlexGroup wrap={true}>
-      <EuiFlexItem grow={3}>
+      <EuiFlexItem grow={5}>
         <EuiInMemoryTable
           columns={columns}
-          items={data}
+          items={data.filter((item) => item.position === "Commander")}
           search={false}
           compressed={true}
           pagination={pagination}
           sorting={sorting}
         />
       </EuiFlexItem>
-      <EuiFlexItem grow={3}>
+      <EuiFlexItem grow={5}>
         <EuiInMemoryTable
           columns={columns}
-          items={data}
+          items={data.filter((item) => item.position === "Heavy Weapons")}
           search={false}
           compressed={true}
           pagination={pagination}
           sorting={sorting}
         />
       </EuiFlexItem>
-      <EuiFlexItem grow={3}>
+      <EuiFlexItem grow={5}>
         <EuiInMemoryTable
           columns={columns}
-          items={data}
+          items={data.filter((item) => item.position === "Scout")}
+          search={false}
+          compressed={true}
+          pagination={pagination}
+          sorting={sorting}
+        />
+      </EuiFlexItem>
+      <EuiFlexItem grow={5}>
+        <EuiInMemoryTable
+          columns={columns}
+          items={data.filter((item) => item.position === "Ammo Carrier")}
+          search={false}
+          compressed={true}
+          pagination={pagination}
+          sorting={sorting}
+        />
+      </EuiFlexItem>
+      <EuiFlexItem grow={5}>
+        <EuiInMemoryTable
+          columns={columns}
+          items={data.filter((item) => item.position === "Medic")}
           search={false}
           compressed={true}
           pagination={pagination}

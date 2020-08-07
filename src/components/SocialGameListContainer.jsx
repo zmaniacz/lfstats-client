@@ -11,8 +11,8 @@ const GET_SOCIAL_GAMES = gql`
     $endDate: timestamptz
   ) {
     selectedCenters @client @export(as: "centersFilter")
-    selectedSocialDailyStartDate @client @export(as: "startDate")
-    selectedSocialDailyEndDate @client @export(as: "endDate")
+    selectedSocialStartDate @client @export(as: "startDate")
+    selectedSocialEndDate @client @export(as: "endDate")
     centers(where: { id: { _in: $centersFilter } }) {
       id
       name

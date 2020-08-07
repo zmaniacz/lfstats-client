@@ -9,9 +9,10 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
 } from "@elastic/eui";
-import { Outlet } from "react-router-dom";
+import { Outlet, Routes, Route } from "react-router-dom";
 import CenterMultiSelect from "./CenterMultiSelect";
 import SocialDatePickerContainer from "./SocialDatePickerContainer";
+import SocialMultiDatePickerContainer from "./SocialMultiDatePickerContainer";
 
 export default function SocialContainer() {
   return (
@@ -32,7 +33,10 @@ export default function SocialContainer() {
           </EuiFlexItem>
           <EuiFlexItem>
             <EuiFormRow label="Filter by Date">
-              <SocialDatePickerContainer />
+              <Routes>
+                <Route path="daily" element={<SocialDatePickerContainer />} />
+                <Route path="*" element={<SocialMultiDatePickerContainer />} />
+              </Routes>
             </EuiFormRow>
           </EuiFlexItem>
         </EuiFlexGroup>
