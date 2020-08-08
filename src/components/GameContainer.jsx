@@ -1,6 +1,6 @@
 import React from "react";
-import { EuiSpacer, EuiLoadingSpinner } from "@elastic/eui";
-import LoadError from "./LoadError";
+import { EuiSpacer } from "@elastic/eui";
+import { LoadError, LoadSpinner } from "./LFLoad";
 import { useQuery, gql } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import Game from "./Game.jsx";
@@ -138,7 +138,7 @@ export default () => {
     variables: { id: gameId * 1 },
   });
 
-  if (loading) return <EuiLoadingSpinner size="xl" />;
+  if (loading) return <LoadSpinner />;
   if (error) return <LoadError />;
 
   return (

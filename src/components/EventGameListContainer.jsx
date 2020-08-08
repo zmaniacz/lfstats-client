@@ -1,7 +1,6 @@
 import React from "react";
-import { EuiLoadingSpinner } from "@elastic/eui";
 import { useQuery, gql } from "@apollo/client";
-import LoadError from "./LoadError";
+import { LoadError, LoadSpinner } from "./LFLoad";
 import GameList from "./GameList";
 
 const GET_EVENT_GAMES = gql`
@@ -38,7 +37,7 @@ export default function EventGameListContainer({ eventId }) {
     variables: { id: eventId * 1 },
   });
 
-  if (loading) return <EuiLoadingSpinner size="xl" />;
+  if (loading) return <LoadSpinner />;
   if (error) return <LoadError />;
 
   return <GameList data={data.event.games} />;

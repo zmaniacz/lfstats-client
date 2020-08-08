@@ -1,7 +1,6 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import { EuiLoadingSpinner } from "@elastic/eui";
-import LoadError from "./LoadError";
+import { LoadError, LoadSpinner } from "./LFLoad";
 import MedicHitSummary from "./MedicHitSummary";
 
 const GET_MEDIC_HIT_STATS = gql`
@@ -52,7 +51,7 @@ export default function EventMedicHitSummaryContainer({ eventId }) {
     variables: { id: eventId * 1 },
   });
 
-  if (loading) return <EuiLoadingSpinner size="xl" />;
+  if (loading) return <LoadSpinner />;
   if (error) return <LoadError />;
 
   const medic_hits = data.events[0].scorecards.map((item) => {

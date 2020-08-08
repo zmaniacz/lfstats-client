@@ -1,7 +1,6 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import { EuiLoadingSpinner } from "@elastic/eui";
-import LoadError from "./LoadError";
+import { LoadError, LoadSpinner } from "./LFLoad";
 import ScorecardList from "./ScorecardList";
 
 const GET_SOCIAL_SCORECARDS = gql`
@@ -66,7 +65,7 @@ export default ({ centerFilter, startDateFilter, endDateFilter }) => {
     },
   });
 
-  if (loading) return <EuiLoadingSpinner size="xl" />;
+  if (loading) return <LoadSpinner />;
   if (error) return <LoadError />;
 
   const scorecards = data.centers

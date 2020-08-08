@@ -2,7 +2,6 @@ import React, { useState, Fragment } from "react";
 import { useQuery, gql } from "@apollo/client";
 import {
   EuiButtonEmpty,
-  EuiLoadingSpinner,
   EuiBasicTable,
   EuiOverlayMask,
   EuiModal,
@@ -11,7 +10,7 @@ import {
   EuiModalBody,
   EuiModalFooter,
 } from "@elastic/eui";
-import LoadError from "./LoadError";
+import { LoadError, LoadSpinner } from "./LFLoad";
 
 const GET_HITDIFF_DETAILS = gql`
   query GetHitDiffDetails($id: bigint!) {
@@ -84,7 +83,7 @@ export default function ScorecardHitDiffButton({ scorecardId, children }) {
   const showModal = () => setIsModalVisible(true);
 
   let content;
-  if (loading) content = <EuiLoadingSpinner size="xl" />;
+  if (loading) content = <LoadSpinner />;
   else if (error) content = <LoadError />;
   else {
     const sameTeam = data.scorecard.scorecard_hits.filter(

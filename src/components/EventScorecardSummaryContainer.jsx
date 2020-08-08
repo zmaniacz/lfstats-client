@@ -1,7 +1,6 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import { EuiLoadingSpinner } from "@elastic/eui";
-import LoadError from "./LoadError";
+import { LoadError, LoadSpinner } from "./LFLoad";
 import ScorecardSummary from "./ScorecardSummary";
 
 const GET_SUMMARY_STATS = gql`
@@ -53,7 +52,7 @@ export default function EventScorecardSummaryContainer({ eventId }) {
     variables: { id: eventId * 1 },
   });
 
-  if (loading) return <EuiLoadingSpinner size="xl" />;
+  if (loading) return <LoadSpinner />;
   if (error) return <LoadError />;
 
   const scorecards = data.events[0].scorecards.map((item) => {

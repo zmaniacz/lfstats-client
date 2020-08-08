@@ -4,13 +4,12 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
-  EuiLoadingSpinner,
   EuiPageContentBody,
   EuiSpacer,
   EuiTitle,
 } from "@elastic/eui";
 import { useQuery, gql } from "@apollo/client";
-import LoadError from "./LoadError";
+import { LoadError, LoadSpinner } from "./LFLoad";
 import SocialScorecardListContainer from "./SocialScorecardListContainer";
 import SocialScorecardSummaryContainer from "./SocialScorecardSummaryContainer";
 import SocialMedicHitSummaryContainer from "./SocialMedicHitSummaryContainer";
@@ -26,8 +25,7 @@ const GET_SOCIAL_START_DATE = gql`
 export default function SocialDaily() {
   const { data, loading, error } = useQuery(GET_SOCIAL_START_DATE);
 
-  if (loading || !data.selectedSocialDailyStartDate)
-    return <EuiLoadingSpinner size="xl" />;
+  if (loading || !data.selectedSocialDailyStartDate) return <LoadSpinner />;
   if (error) return <LoadError />;
 
   return (

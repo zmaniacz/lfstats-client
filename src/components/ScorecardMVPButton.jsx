@@ -3,14 +3,13 @@ import { useQuery, gql } from "@apollo/client";
 import {
   EuiPopover,
   EuiButtonEmpty,
-  EuiLoadingSpinner,
   EuiDescriptionList,
   EuiDescriptionListTitle,
   EuiDescriptionListDescription,
   EuiTextColor,
 } from "@elastic/eui";
 import { htmlIdGenerator } from "@elastic/eui/lib/services";
-import LoadError from "./LoadError";
+import { LoadError, LoadSpinner } from "./LFLoad";
 
 const GET_MVP_DETAILS = gql`
   query GetMVPDetails($id: bigint!) {
@@ -36,7 +35,7 @@ export default function ScorecardMVPButton({ scorecardId, children }) {
   );
 
   let content;
-  if (loading) content = <EuiLoadingSpinner size="xl" />;
+  if (loading) content = <LoadSpinner />;
   else if (error) content = <LoadError />;
   else {
     content = (

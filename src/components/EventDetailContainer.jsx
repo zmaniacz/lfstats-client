@@ -3,13 +3,12 @@ import {
   EuiPageHeader,
   EuiPageHeaderSection,
   EuiTitle,
-  EuiLoadingSpinner,
   EuiText,
 } from "@elastic/eui";
 import { useQuery, gql } from "@apollo/client";
 import { Outlet, useParams } from "react-router-dom";
 import { selectedEventVar } from "../cache";
-import LoadError from "./LoadError";
+import { LoadError, LoadSpinner } from "./LFLoad";
 import EuiCustomLink from "./EuiCustomLink";
 
 const GET_EVENT = gql`
@@ -32,7 +31,7 @@ export default () => {
     variables: { id: eventId * 1 },
   });
 
-  if (loading) return <EuiLoadingSpinner size="xl" />;
+  if (loading) return <LoadSpinner />;
   if (error) return <LoadError />;
   if (data.event === null) return <LoadError />;
 

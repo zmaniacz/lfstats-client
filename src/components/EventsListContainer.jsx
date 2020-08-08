@@ -7,10 +7,9 @@ import {
   EuiTitle,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiLoadingSpinner,
 } from "@elastic/eui";
 import { useQuery, gql } from "@apollo/client";
-import LoadError from "./LoadError";
+import { LoadError, LoadSpinner } from "./LFLoad";
 import EventsList from "./EventsList";
 
 const GET_EVENTS = gql`
@@ -39,7 +38,7 @@ const GET_EVENTS = gql`
 export default ({ eventId }) => {
   const { data, loading, error } = useQuery(GET_EVENTS);
 
-  if (loading) return <EuiLoadingSpinner size="xl" />;
+  if (loading) return <LoadSpinner />;
   if (error) return <LoadError />;
   const events = data.events.map((item) => ({
     center_name: item.center.name,

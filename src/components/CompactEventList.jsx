@@ -1,6 +1,7 @@
-import React, { Fragment } from "react";
-import { EuiLoadingSpinner, EuiBasicTable } from "@elastic/eui";
+import React from "react";
+import { EuiBasicTable } from "@elastic/eui";
 import EuiCustomLink from "./EuiCustomLink";
+import { LoadError, LoadSpinner } from "./LFLoad";
 import { useQuery, gql } from "@apollo/client";
 
 const GET_RECENT_EVENTS = gql`
@@ -29,6 +30,9 @@ const GET_RECENT_EVENTS = gql`
 export default function CompactEventList() {
   const { data, loading, error } = useQuery(GET_RECENT_EVENTS);
 
+  if (loading) return <LoadSpinner />;
+  if (error) return <LoadError />;
+
   const columns = [
     {
       field: "name",
@@ -52,11 +56,5 @@ export default function CompactEventList() {
     },
   ];
 
-  return (
-    <Fragment>
-      {loading && <EuiLoadingSpinner size="xl" />}
-      {error && <p>Error!</p>}
-      {data && <EuiBasicTable columns={columns} items={data.events} />}
-    </Fragment>
-  );
+  return <EuiBasicTable columns={columns} items={data.events} />;
 }

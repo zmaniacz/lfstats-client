@@ -1,7 +1,6 @@
 import React from "react";
-import { EuiLoadingSpinner } from "@elastic/eui";
 import { useQuery, gql } from "@apollo/client";
-import LoadError from "./LoadError";
+import { LoadError, LoadSpinner } from "./LFLoad";
 import GameList from "./GameList";
 
 const GET_SOCIAL_GAMES = gql`
@@ -50,7 +49,7 @@ const GET_SOCIAL_GAMES = gql`
 export default () => {
   const { data, loading, error } = useQuery(GET_SOCIAL_GAMES);
 
-  if (loading) return <EuiLoadingSpinner size="xl" />;
+  if (loading) return <LoadSpinner />;
   if (error) return <LoadError />;
 
   let games = data.centers.reduce((games, item) => {
