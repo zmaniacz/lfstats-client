@@ -32,6 +32,9 @@ const GET_SOCIAL_LEADERBOARDS = gql`
         id
         active_player_name
       }
+      game {
+        id
+      }
     }
   }
 `;

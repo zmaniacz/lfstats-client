@@ -1,5 +1,10 @@
 import React from "react";
-import { EuiFlexGroup, EuiFlexItem, EuiInMemoryTable } from "@elastic/eui";
+import {
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiInMemoryTable,
+  EuiText,
+} from "@elastic/eui";
 import EuiCustomLink from "./EuiCustomLink";
 
 export default ({ data }) => {
@@ -16,15 +21,25 @@ export default ({ data }) => {
         </EuiCustomLink>
       ),
     },
-    { field: "score", name: "Score", dataType: "number", sortable: true },
+    {
+      field: "score",
+      name: "Score",
+      dataType: "number",
+      sortable: true,
+      render: (name, item) => (
+        <EuiCustomLink to={`/games/${item.game.id}`}>{name}</EuiCustomLink>
+      ),
+    },
     {
       field: "mvp_points",
       name: "MVP",
       dataType: "number",
       sortable: true,
-      render: (name, item) => {
-        return Number.parseFloat(name).toFixed(2);
-      },
+      render: (name, item) => (
+        <EuiCustomLink to={`/games/${item.game.id}`}>
+          {Number.parseFloat(name).toFixed(2)}
+        </EuiCustomLink>
+      ),
     },
   ];
 
@@ -44,6 +59,7 @@ export default ({ data }) => {
   return (
     <EuiFlexGroup wrap={true}>
       <EuiFlexItem grow={5}>
+        <EuiText color="default">Commander</EuiText>
         <EuiInMemoryTable
           columns={columns}
           items={data.filter((item) => item.position === "Commander")}
@@ -54,6 +70,7 @@ export default ({ data }) => {
         />
       </EuiFlexItem>
       <EuiFlexItem grow={5}>
+        <EuiText color="default">Heavy Weapons</EuiText>
         <EuiInMemoryTable
           columns={columns}
           items={data.filter((item) => item.position === "Heavy Weapons")}
@@ -64,6 +81,7 @@ export default ({ data }) => {
         />
       </EuiFlexItem>
       <EuiFlexItem grow={5}>
+        <EuiText color="default">Scout</EuiText>
         <EuiInMemoryTable
           columns={columns}
           items={data.filter((item) => item.position === "Scout")}
@@ -74,6 +92,7 @@ export default ({ data }) => {
         />
       </EuiFlexItem>
       <EuiFlexItem grow={5}>
+        <EuiText color="default">Ammo Carrier</EuiText>
         <EuiInMemoryTable
           columns={columns}
           items={data.filter((item) => item.position === "Ammo Carrier")}
@@ -84,6 +103,7 @@ export default ({ data }) => {
         />
       </EuiFlexItem>
       <EuiFlexItem grow={5}>
+        <EuiText color="default">Medic</EuiText>
         <EuiInMemoryTable
           columns={columns}
           items={data.filter((item) => item.position === "Medic")}
