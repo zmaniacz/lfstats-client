@@ -1,59 +1,61 @@
 import React from "react";
+import moment from "moment";
 import { useQuery, gql } from "@apollo/client";
 import { LoadError, LoadSpinner } from "./LFLoad";
 import GameList from "./GameList";
 
 const GET_SOCIAL_GAMES = gql`
   query GetSocialGamesByCenter(
-    $centersFilter: [bigint!]
+    $centers: [bigint!]
     $startDate: timestamptz
     $endDate: timestamptz
   ) {
-    selectedCenters @client @export(as: "centersFilter")
-    selectedSocialStartDate @client @export(as: "startDate")
-    selectedSocialEndDate @client @export(as: "endDate")
-    centers(where: { id: { _in: $centersFilter } }) {
+    games(
+      where: {
+        _and: {
+          game_datetime: { _gte: $startDate, _lte: $endDate }
+          type: { _eq: "social" }
+          center_id: { _in: $centers }
+        }
+      }
+    ) {
       id
-      name
-      games(
-        where: {
-          _and: {
-            game_datetime: { _gte: $startDate, _lte: $endDate }
-            type: { _eq: "social" }
-          }
-        }
-      ) {
+      game_name
+      game_datetime
+      game_length
+      winner {
         id
-        game_name
-        game_datetime
-        game_length
-        winner {
-          id
-          color_enum
-          total_score
-        }
-        loser {
-          id
-          color_enum
-          total_score
-        }
-        center {
-          id
-          name
-        }
+        color_enum
+        total_score
+      }
+      loser {
+        id
+        color_enum
+        total_score
+      }
+      center {
+        id
+        name
       }
     }
   }
 `;
 
-export default () => {
-  const { data, loading, error } = useQuery(GET_SOCIAL_GAMES);
+export default function SocialGameListContainer({
+  centerFilter,
+  startDateFilter,
+  endDateFilter,
+}) {
+  const { data, loading, error } = useQuery(GET_SOCIAL_GAMES, {
+    variables: {
+      centers: centerFilter,
+      startDate: startDateFilter,
+      endDate: moment(endDateFilter).add(1, "d").format("YYYY-MM-DD"),
+    },
+  });
 
   if (loading) return <LoadSpinner />;
   if (error) return <LoadError />;
 
-  let games = data.centers.reduce((games, item) => {
-    return games.concat(item.games);
-  }, []);
-  return <GameList data={games} />;
-};
+  return <GameList data={data.games} />;
+}
