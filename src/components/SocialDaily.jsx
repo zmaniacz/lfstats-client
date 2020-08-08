@@ -44,7 +44,7 @@ export default function SocialDaily() {
             <EuiFlexItem grow={false}>
               <EuiSpacer />
               <SocialScorecardListContainer
-                centerFilter={data.selectedCetners}
+                centerFilter={data.selectedCenters}
                 startDateFilter={data.selectedSocialDailyStartDate}
                 endDateFilter={data.selectedSocialDailyEndDate}
               />
