@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { EuiDatePicker, EuiDatePickerRange, EuiButtonIcon } from "@elastic/eui";
+import { EuiDatePicker, EuiDatePickerRange } from "@elastic/eui";
 import { selectedSocialStartDateVar, selectedSocialEndDateVar } from "../cache";
 
 export default function SocialMultiDatePicker({ startDate, endDate }) {
