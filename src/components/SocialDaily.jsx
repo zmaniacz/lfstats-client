@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import {
   EuiAccordion,
   EuiFlexGroup,
@@ -8,25 +9,20 @@ import {
   EuiSpacer,
   EuiTitle,
 } from "@elastic/eui";
-import { useQuery, gql } from "@apollo/client";
-import { LoadError, LoadSpinner } from "./LFLoad";
+import { useReactiveVar } from "@apollo/client";
+import { selectedCentersVar, selectedSocialDailyStartDateVar } from "../cache";
 import SocialScorecardListContainer from "./SocialScorecardListContainer";
 import SocialScorecardSummaryContainer from "./SocialScorecardSummaryContainer";
 import SocialMedicHitSummaryContainer from "./SocialMedicHitSummaryContainer";
 
-const GET_SOCIAL_START_DATE = gql`
-  query GetSocialStartDate {
-    selectedCenters @client
-    selectedSocialDailyStartDate @client
-    selectedSocialDailyEndDate @client
-  }
-`;
-
 export default function SocialDaily() {
-  const { data, loading, error } = useQuery(GET_SOCIAL_START_DATE);
-
-  if (loading || !data.selectedSocialDailyStartDate) return <LoadSpinner />;
-  if (error) return <LoadError />;
+  const selectedCenters = useReactiveVar(selectedCentersVar);
+  const selectedSocialDailyStartDate = useReactiveVar(
+    selectedSocialDailyStartDateVar
+  );
+  const selectedSocialDailyEndDate = moment(selectedSocialDailyStartDate)
+    .add(1, "d")
+    .format("YYYY-MM-DD");
 
   return (
     <>
@@ -44,9 +40,9 @@ export default function SocialDaily() {
             <EuiFlexItem grow={false}>
               <EuiSpacer />
               <SocialScorecardListContainer
-                centerFilter={data.selectedCenters}
-                startDateFilter={data.selectedSocialDailyStartDate}
-                endDateFilter={data.selectedSocialDailyEndDate}
+                centerFilter={selectedCenters}
+                startDateFilter={selectedSocialDailyStartDate}
+                endDateFilter={selectedSocialDailyEndDate}
               />
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -65,9 +61,9 @@ export default function SocialDaily() {
             <EuiFlexItem grow={false}>
               <EuiSpacer />
               <SocialScorecardSummaryContainer
-                centerFilter={data.selectedCetners}
-                startDateFilter={data.selectedSocialDailyStartDate}
-                endDateFilter={data.selectedSocialDailyEndDate}
+                centerFilter={selectedCenters}
+                startDateFilter={selectedSocialDailyStartDate}
+                endDateFilter={selectedSocialDailyEndDate}
               />
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -86,9 +82,9 @@ export default function SocialDaily() {
             <EuiFlexItem grow={false}>
               <EuiSpacer />
               <SocialMedicHitSummaryContainer
-                centerFilter={data.selectedCetners}
-                startDateFilter={data.selectedSocialDailyStartDate}
-                endDateFilter={data.selectedSocialDailyEndDate}
+                centerFilter={selectedCenters}
+                startDateFilter={selectedSocialDailyStartDate}
+                endDateFilter={selectedSocialDailyEndDate}
               />
             </EuiFlexItem>
           </EuiFlexGroup>
