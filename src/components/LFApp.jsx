@@ -6,7 +6,7 @@ import EventDetailContainer from "./EventDetailContainer";
 import EventsListContainer from "./EventsListContainer";
 import EventDaily from "./EventDaily";
 import EventGames from "./EventGames";
-//import PlayersContainer from "./PlayersContainer";
+import PlayerContainer from "./PlayerContainer";
 //import CentersContainer from "./CentersContainer";
 import GameContainer from "./GameContainer";
 import SocialContainer from "./SocialContainer";
@@ -43,8 +43,11 @@ export default () => (
             <Route path="games" element={<SocialGames />} />
             <Route path="leader" element={<SocialLeaderBoardsLayout />} />
           </Route>
-          {/*<Route path="players" element={<PlayersContainer />} />
-<Route path="centers" element={<CentersContainer />} />*/}
+          <Route path="players">
+            <Route path="/" element={<Navigate to="../" replace={true} />} />
+            <Route path=":playerId" element={<PlayerContainer />} />
+          </Route>
+          {/*<Route path="centers" element={<CentersContainer />} />*/}
         </Routes>
         <EuiSpacer />
         <Footer />
